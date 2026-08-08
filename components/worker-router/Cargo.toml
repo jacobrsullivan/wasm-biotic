@@ -1,0 +1,15 @@
+[package]
+name = "wasm-biotic-worker-router"
+description = "Exact-digest worker dispatch policy as a Wasm-Biotic component."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+dlmalloc.workspace = true
+wasm-biotic-worker-policy = { path = "../workers/policy" }
+wit-bindgen.workspace = true
+

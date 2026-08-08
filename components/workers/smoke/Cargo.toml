@@ -1,0 +1,11 @@
+[package]
+name = "wasm-biotic-worker-smoke"
+description = "Wasmtime smoke host for compiled Wasm-Biotic workers."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+sha2.workspace = true
+wasm-biotic-worker-policy = { path = "../policy" }
+wasmtime.workspace = true

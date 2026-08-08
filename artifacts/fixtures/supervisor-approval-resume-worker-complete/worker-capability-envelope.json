@@ -1,0 +1,36 @@
+{
+  "envelope_id": "envelope-worker-rc01",
+  "actor_scope": "worker-alpha",
+  "authority_ceiling": "observe",
+  "isolation_profile": "artifact-sandbox",
+  "allowed_resource_scopes": [
+    "worker-channel",
+    "workspace-root",
+    "pointer-index-rc01"
+  ],
+  "campaign_scope": "campaign-rc01",
+  "epoch_scope": "epoch-0001",
+  "world_grants": [
+    {
+      "world": "worker-messaging",
+      "allowed_operations": ["dispatch", "result"],
+      "default_authority_class": "observe",
+      "default_approval_class": "auto-allowed",
+      "operation_approval_overrides": []
+    },
+    {
+      "world": "workspace-observe",
+      "allowed_operations": ["read-file", "search"],
+      "default_authority_class": "observe",
+      "default_approval_class": "auto-allowed",
+      "operation_approval_overrides": []
+    },
+    {
+      "world": "memory-access",
+      "allowed_operations": ["read-pointer-index"],
+      "default_authority_class": "observe",
+      "default_approval_class": "auto-allowed",
+      "operation_approval_overrides": []
+    }
+  ]
+}

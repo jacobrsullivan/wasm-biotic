@@ -1,0 +1,23 @@
+[package]
+name = "wasm-biotic-builder-worker"
+description = "Builder worker component."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "../component/src/lib.rs"
+
+[features]
+default = ["builder"]
+planner = []
+builder = []
+validator = []
+reviewer = []
+packager = []
+continuity = []
+
+[dependencies]
+wasm-biotic-worker-guest = { path = "../guest" }
+wit-bindgen.workspace = true

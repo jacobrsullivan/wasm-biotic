@@ -1,0 +1,17 @@
+{
+  "anchor_id": "pd-02-phase-d-contract-manifest-anchor",
+  "anchor_family_ref": "PD-01-phase-d-anchor-family.json",
+  "schema_kind": "phase-d-contract-manifest",
+  "required_fields": [
+    "manifest_id",
+    "anchor_family_ref",
+    "manifest_schema_ref",
+    "sender_identity_refs",
+    "envelope_refs",
+    "compatibility_refs",
+    "quarantine_refs",
+    "imported_content_refs",
+    "claim_boundary"
+  ],
+  "boundary_statement": "Concrete Phase D manifests remain local-first and pre-federation. They do not prove federation, ambient trust, or ecosystem autonomy."
+}

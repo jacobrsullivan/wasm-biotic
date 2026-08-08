@@ -1,0 +1,9 @@
+{
+  "session_id": "session-rc01-1",
+  "actor_kind": "supervisor",
+  "actor_id": "supervisor-alpha",
+  "campaign_id": "campaign-rc01",
+  "epoch_id": "epoch-0001",
+  "capability_envelope_ref": "envelope-supervisor-rc01",
+  "parent_session_id": null
+}

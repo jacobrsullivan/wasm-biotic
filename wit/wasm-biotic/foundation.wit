@@ -1,0 +1,103 @@
+package wasm-biotic:factory@0.1.0;
+
+/// Values shared by every component in a component-complete factory.
+///
+/// Digests are lower-case hexadecimal SHA-256 values. Components must reject
+/// any digest whose bytes do not match the referenced content.
+interface foundation {
+    enum hash-algorithm {
+        sha256,
+    }
+
+    record digest {
+        algorithm: hash-algorithm,
+        hex: string,
+    }
+
+    record blob-ref {
+        content-digest: digest,
+        size-bytes: u64,
+        media-type: string,
+    }
+
+    /// Canonical, schema-labelled bytes exchanged across component boundaries.
+    record document {
+        schema: string,
+        media-type: string,
+        body: list<u8>,
+    }
+
+    record principal {
+        id: string,
+        component-digest: digest,
+    }
+
+    enum authority-class {
+        observe,
+        local-mutate,
+        automation-control,
+        promotion-control,
+    }
+
+    enum approval-class {
+        automatic,
+        operator-required,
+        forbidden,
+    }
+
+    record approval-proof {
+        approval-id: string,
+        decision-digest: digest,
+        approver: string,
+        recorded-at-ms: u64,
+        signature: list<u8>,
+    }
+
+    record capability-grant {
+        /// Exact imported interface or host primitive name.
+        capability: string,
+        scope: string,
+        /// Constraints are immutable, content-addressed canonical bytes.
+        constraints: option<blob-ref>,
+    }
+
+    record resource-limits {
+        fuel: u64,
+        memory-bytes: u64,
+        output-bytes: u64,
+        wall-time-ms: u64,
+    }
+
+    record failure {
+        code: string,
+        message: string,
+        retryable: bool,
+        evidence: option<blob-ref>,
+    }
+
+    record effect-receipt {
+        receipt-id: string,
+        request-digest: digest,
+        executor-digest: digest,
+        started-at-ms: u64,
+        finished-at-ms: u64,
+        outcome-digest: digest,
+        audit-sequence: u64,
+    }
+
+    variant terminal-outcome {
+        succeeded(blob-ref),
+        rejected(failure),
+        failed(failure),
+        cancelled,
+        exhausted(failure),
+    }
+}
+
+/// Uniform byte-oriented entry point required on every component that may be
+/// selected dynamically by digest. Typed interfaces remain available for
+/// statically composed calls; this adapter keeps the native runner generic.
+interface component-task {
+    use foundation.{blob-ref, failure};
+    run: func(input: blob-ref) -> result<blob-ref, failure>;
+}

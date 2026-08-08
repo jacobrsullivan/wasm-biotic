@@ -1,0 +1,17 @@
+[package]
+name = "wasm-biotic-worker-policy"
+description = "Pure no-std policy shared by the six Wasm-Biotic worker components."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+wasm-biotic-service-policy-core = { path = "../../service-policy-core", default-features = false }
+
+[lints.clippy]
+# `FailureValue` mirrors the fixed WIT result ABI; boxing it would change the
+# component policy boundary solely to satisfy a host-oriented size heuristic.
+result_large_err = "allow"

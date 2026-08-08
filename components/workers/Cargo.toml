@@ -1,0 +1,33 @@
+[workspace]
+members = [
+    "builder",
+    "continuity",
+    "guest",
+    "packager",
+    "planner",
+    "policy",
+    "reviewer",
+    "smoke",
+    "validator",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace.dependencies]
+dlmalloc = { version = "0.2.14", default-features = false, features = ["global"] }
+serde = { version = "1", default-features = false, features = ["alloc", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["alloc"] }
+sha2 = { version = "0.10", default-features = false }
+wasmtime = { version = "43.0.2", default-features = false, features = ["component-model", "cranelift", "runtime", "std"] }
+wit-bindgen = { version = "0.51.0", default-features = false, features = ["macros", "realloc"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = "symbols"

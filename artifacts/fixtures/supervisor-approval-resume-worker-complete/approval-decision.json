@@ -1,0 +1,7 @@
+{
+  "approval_request_id": "approval-req-rc01",
+  "decision": "granted",
+  "scope_ref": "workspace-mutate:task-approve-worker-complete",
+  "decided_by": "operator-rc01",
+  "notes": "Approved for the bounded RC-01 continuation path."
+}

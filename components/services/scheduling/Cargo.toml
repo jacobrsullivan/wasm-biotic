@@ -1,0 +1,13 @@
+[package]
+name = "wasm-biotic-scheduling-service"
+description = "Bounded scheduling capability-service component."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-biotic-service-policy-core = { path = "../../service-policy-core" }
+wit-bindgen.workspace = true

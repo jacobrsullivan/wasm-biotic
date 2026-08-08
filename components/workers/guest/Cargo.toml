@@ -1,0 +1,10 @@
+[package]
+name = "wasm-biotic-worker-guest"
+description = "Shared Component Model guest adapter for Wasm-Biotic workers."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+dlmalloc.workspace = true
+wasm-biotic-worker-policy = { path = "../policy" }

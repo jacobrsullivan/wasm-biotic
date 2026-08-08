@@ -1,0 +1,28 @@
+[package]
+name = "wasm-biotic-supervisor-reducer"
+description = "Pure supervisor policy component for a component-complete Wasm-Biotic factory."
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1", default-features = false, features = ["alloc", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["alloc"] }
+sha2 = { version = "0.10", default-features = false }
+wit-bindgen = { version = "0.51.0", default-features = false, features = ["macros", "realloc"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+dlmalloc = { version = "0.2.12", default-features = false, features = ["global"] }
+
+[dev-dependencies]
+wasmtime = { version = "43.0.1", default-features = false, features = ["component-model", "cranelift", "runtime", "std"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = "symbols"

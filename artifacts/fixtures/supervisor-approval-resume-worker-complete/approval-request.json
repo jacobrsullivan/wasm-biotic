@@ -1,0 +1,6 @@
+{
+  "approval_request_id": "approval-req-rc01",
+  "summary": "Approve the bounded workspace mutation before worker dispatch.",
+  "requested_action_ref": "workspace-mutate:task-approve-worker-complete",
+  "approval_class": "human-required"
+}

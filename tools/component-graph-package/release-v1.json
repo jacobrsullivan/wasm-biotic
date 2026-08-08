@@ -1,0 +1,49 @@
+{
+  "schema": "wasm-biotic.component-release-source.v1",
+  "root": "factory-control",
+  "required_node_count": 22,
+  "nodes": [
+    "admitted-tool-probe",
+    "build-service",
+    "builder-worker",
+    "capability-router",
+    "closure-evaluator",
+    "continuity-service",
+    "continuity-worker",
+    "exchange-service",
+    "factory-control",
+    "factory-evolution",
+    "operations-service",
+    "packager-worker",
+    "packaging-service",
+    "planner-worker",
+    "review-service",
+    "reviewer-worker",
+    "scheduling-service",
+    "state-migration",
+    "supervisor-reducer",
+    "validation-service",
+    "validator-worker",
+    "worker-router"
+  ],
+  "dynamic_targets": [
+    "admitted-tool-probe",
+    "builder-worker",
+    "continuity-worker",
+    "packager-worker",
+    "planner-worker",
+    "reviewer-worker",
+    "validator-worker"
+  ],
+  "native_boundary": [
+    "blob-store",
+    "transaction-store",
+    "clock",
+    "component-runner",
+    "http-transport",
+    "key-service",
+    "activation",
+    "audit-log"
+  ],
+  "authority": "The Rust release definition in src/lib.rs is validated against this frozen inventory; emitted raw digests and graph metadata are authoritative."
+}

@@ -1,0 +1,14 @@
+{
+  "anchor_family_id": "pd-01-phase-d-anchor-family",
+  "identity_anchor_ref": "PD-01-factory-identity-manifest-anchor.md",
+  "exchange_anchor_ref": "PD-01-exchange-envelope-anchor.md",
+  "compatibility_anchor_ref": "PD-01-compatibility-decision-anchor.md",
+  "quarantine_anchor_ref": "PD-01-import-quarantine-anchor.md",
+  "version_refs": [
+    "phase-d-local-first",
+    "phase-d-pre-federation",
+    "phase-d-quarantine-first",
+    "phase-d-bounded-memory-exchange"
+  ],
+  "boundary_statement": "Phase D proves bounded factories can exchange typed, attributable, quarantine-capable packets under explicit compatibility law. It does not prove federation, remote orchestration, or ecosystem autonomy."
+}

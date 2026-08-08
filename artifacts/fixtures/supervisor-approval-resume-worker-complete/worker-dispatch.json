@@ -1,0 +1,23 @@
+{
+  "dispatch_id": "dispatch-rc01-worker-1",
+  "worker_task_ref": "worker-task-rc01",
+  "capability_envelope_ref": "envelope-worker-rc01",
+  "payload_summary": "Run the bounded evaluation needed for supervisor synthesis.",
+  "requested_capabilities": [
+    {
+      "world": "worker-messaging",
+      "operation": "dispatch",
+      "resource_scope": "worker-channel"
+    },
+    {
+      "world": "workspace-observe",
+      "operation": "search",
+      "resource_scope": "workspace-root"
+    },
+    {
+      "world": "memory-access",
+      "operation": "read-pointer-index",
+      "resource_scope": "pointer-index-rc01"
+    }
+  ]
+}

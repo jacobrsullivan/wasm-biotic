@@ -1,0 +1,11 @@
+{
+  "artifact_id": "pointer-index-rc01",
+  "critical_refs": [
+    "campaign-rc01",
+    "epoch-0001",
+    "task-approve-worker-complete"
+  ],
+  "governance_constraints": [
+    "Any workspace mutation in this scenario requires human approval."
+  ]
+}

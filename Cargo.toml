@@ -1,0 +1,38 @@
+[package]
+name = "aiaf-v1"
+description = "Transitional native AIAF v1 reference oracle and component-graph release tooling."
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[features]
+default = []
+# The native operator is retained only as a behavioural reference oracle.  It
+# is deliberately absent from the default build and is never linked by the
+# component-factory launcher in `kernel/`.
+transitional-native-reference = []
+
+[[bin]]
+name = "aiaf-v1-runner"
+path = "src/bin/aiaf-v1-runner.rs"
+required-features = ["transitional-native-reference"]
+
+[lib]
+name = "aiaf_v1"
+path = "src/lib.rs"
+
+[dependencies]
+axum = { version = "0.8", features = ["http1", "json", "tokio"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+ring = "0.17"
+rustix = { version = "1.1.4", features = ["process"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "signal", "sync", "time"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+tower = { version = "0.5", features = ["util"] }
+wasmparser = "0.246.2"
+wasmtime = "43.0.1"
+wat = "1.246.2"
+wit-parser = "0.246.2"

@@ -1,0 +1,35 @@
+{
+  "spec_id": "factory-program-spec:factory-01",
+  "title": "Factory_01",
+  "root_factory_ref": "factory:aiaf-v1:root",
+  "stable_interface_ref": "contract:aiaf-v1:bounded-v1",
+  "goal_refs": [
+    "goal:factory-01:bounded-single-factory-improvement"
+  ],
+  "workload_refs": [
+    "workload:factory-01:governed-llm-improvement-loop"
+  ],
+  "utility_metric_refs": [
+    "metric:factory-01:bounded-cycle-readiness"
+  ],
+  "mutation_scope_refs": [
+    "scope:factory-01:single-factory-line"
+  ],
+  "promotion_gate_refs": [
+    "gate:factory-01:operator-approved-cycle-decision"
+  ],
+  "rollback_gate_refs": [
+    "gate:factory-01:rollback-to-last-adopted-incumbent"
+  ],
+  "recursion_budget": {
+    "recursion_budget_id": "recursion-budget:factory-01",
+    "max_depth": 2,
+    "max_campaigns": 3,
+    "risk_threshold_refs": [
+      "risk-threshold:factory-01:bounded-recursion"
+    ],
+    "exhaustion_policy": "stop"
+  },
+  "policy_ref": "policy:factory-01:bounded-governed-llm-drive",
+  "llm_driver_profile_ref": "llm-driver-profile:factory-01-openai"
+}

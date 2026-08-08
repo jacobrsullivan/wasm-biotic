@@ -1,0 +1,28 @@
+[package]
+name = "wasm-biotic-component-graph-package"
+description = "Deterministic release graph builder, composer, validator and kernel probe."
+version = "0.1.0"
+edition = "2024"
+publish = false
+default-run = "wasm-biotic-component-graph-package"
+
+[dependencies]
+aiaf-v1 = { path = "../.." }
+ring = "=0.17.14"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+wasm-biotic-kernel = { path = "../../kernel" }
+wasm-biotic-factory-control = { path = "../../components/factory-control" }
+wasm-biotic-service-policy-core = { path = "../../components/service-policy-core" }
+wasm-encoder = { version = "=0.246.2", features = ["wasmparser"] }
+wasmparser = "=0.246.2"
+wasmtime = { version = "43.0.1", default-features = false, features = [
+    "component-model",
+    "cranelift",
+    "runtime",
+    "std",
+] }
+
+[dev-dependencies]
+wat = "1.246.2"

@@ -1,0 +1,199 @@
+package wasm-biotic:factory@0.1.0;
+
+/// Pure policy component: no substrate imports are permitted.
+world supervisor-reducer-component {
+    export supervisor-reducer;
+}
+
+/// The durable control-plane driver is itself a component. Its imports either
+/// resolve to other graph components or to the explicit generic substrate.
+world factory-control-component {
+    import supervisor-reducer;
+    import worker-router;
+    import capability-router;
+    import exchange-service;
+    import factory-evolution;
+    import state-migration;
+    import closure-evaluator;
+    import transaction-store;
+    import blob-store;
+    import activation;
+    import audit-log;
+
+    export factory-control;
+    export factory-api;
+}
+
+world planner-worker-component {
+    import build-service;
+    import scheduling-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+world builder-worker-component {
+    import build-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+world validator-worker-component {
+    import validation-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+world reviewer-worker-component {
+    import review-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+world packager-worker-component {
+    import packaging-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+world continuity-worker-component {
+    import continuity-service;
+    import blob-store;
+    export worker-workflow;
+    export component-task;
+}
+
+/// This component owns operation/family matching, authority checks, approval
+/// policy and service selection. The native host must not implement this route.
+world capability-router-component {
+    import build-service;
+    import packaging-service;
+    import validation-service;
+    import review-service;
+    import continuity-service;
+    import scheduling-service;
+    import operations-service;
+    import blob-store;
+    import transaction-store;
+    import key-service;
+    export capability-router;
+}
+
+world worker-router-component {
+    import component-runner;
+    import blob-store;
+    export worker-router;
+}
+
+world build-service-component {
+    import blob-store;
+    export build-service;
+}
+
+world packaging-service-component {
+    import blob-store;
+    export packaging-service;
+}
+
+world validation-service-component {
+    import blob-store;
+    export validation-service;
+}
+
+world review-service-component {
+    import blob-store;
+    export review-service;
+}
+
+world continuity-service-component {
+    import blob-store;
+    export continuity-service;
+}
+
+world scheduling-service-component {
+    import transaction-store;
+    import clock;
+    export scheduling-service;
+}
+
+world operations-service-component {
+    import blob-store;
+    export operations-service;
+}
+
+world exchange-service-component {
+    import blob-store;
+    import transaction-store;
+    import clock;
+    import http-transport;
+    import key-service;
+    export exchange-service;
+}
+
+world closure-evaluator-component {
+    import blob-store;
+    export closure-evaluator;
+    export component-task;
+}
+
+world factory-evolution-component {
+    import blob-store;
+    import component-runner;
+    import activation;
+    export factory-evolution;
+    export component-task;
+}
+
+world state-migration-component {
+    /// The typed migration function remains pure. The blob store is present
+    /// only so the uniform component-task adapter can resolve and persist its
+    /// byte-oriented input/output without host-side schema knowledge.
+    import blob-store;
+    export state-migration;
+    export component-task;
+}
+
+/// Tools, compilers and validators admitted through `command-execute` are also
+/// components. They receive immutable input bytes and return immutable output;
+/// no native process/shell execution interface exists in this package.
+world admitted-tool-component {
+    import blob-store;
+    export component-task;
+}
+
+/// Generic digest-selected task world used by the native component runner.
+/// The runner links this fixed substrate vocabulary and grants only the exact
+/// subset admitted by each run request; no factory role or service interface is
+/// implemented by the host.
+world admitted-task-component {
+    import blob-store;
+    import transaction-store;
+    import clock;
+    import component-runner;
+    import http-transport;
+    import key-service;
+    import activation;
+    import audit-log;
+    export component-task;
+}
+
+/// The deployable root after graph composition. These eight interfaces are the
+/// complete native host boundary; all other imports must resolve to components
+/// whose digests appear in the activated graph manifest.
+world factory-root {
+    import blob-store;
+    import transaction-store;
+    import clock;
+    import component-runner;
+    import http-transport;
+    import key-service;
+    import activation;
+    import audit-log;
+
+    export factory-control;
+    export factory-api;
+}

@@ -1,0 +1,169 @@
+{
+  "schema": "wasm-biotic.behavioural-corpus.v1",
+  "contract_decision": "CD-0001-component-factory-contract-v1",
+  "clock_ms": 1000,
+  "source": "bounded-component-equivalence-source-v1",
+  "events": [
+    { "sequence": 1, "kind": "submit" },
+    { "sequence": 2, "kind": "worker-completed", "role": "planner" },
+    { "sequence": 3, "kind": "worker-completed", "role": "builder" },
+    { "sequence": 4, "kind": "worker-completed", "role": "validator" },
+    { "sequence": 5, "kind": "worker-completed", "role": "reviewer" },
+    { "sequence": 6, "kind": "worker-completed", "role": "packager" },
+    { "sequence": 7, "kind": "worker-completed", "role": "continuity-worker" }
+  ],
+  "expected_operations": [
+    "workspace-open",
+    "workspace-snapshot",
+    "workspace-patch",
+    "candidate-build",
+    "command-execute",
+    "package-publish",
+    "package-verify",
+    "validation-prove",
+    "validation-compare",
+    "review-candidate",
+    "evidence-publish",
+    "evidence-resolve",
+    "schedule-job",
+    "deployment-initialize",
+    "deployment-activate",
+    "deployment-observe",
+    "deployment-rollback",
+    "operations-inspect",
+    "factory-execute",
+    "factory-provider-proposal",
+    "factory-shadow",
+    "factory-initialize",
+    "factory-state-migrate",
+    "factory-activate",
+    "factory-observe",
+    "factory-rollback",
+    "factory-inspect"
+  ],
+  "approval_cases": [
+    {
+      "id": "approval-valid-first-use",
+      "expected_terminal": "succeeded",
+      "expected_failure_code": null,
+      "service_delegate_invoked": true
+    },
+    {
+      "id": "approval-exact-replay",
+      "expected_terminal": "succeeded-idempotent-approval-use",
+      "expected_failure_code": null,
+      "service_delegate_invoked": true
+    },
+    {
+      "id": "approval-altered-request-reuse",
+      "expected_terminal": "rejected",
+      "expected_failure_code": "approval-reused",
+      "service_delegate_invoked": false
+    },
+    {
+      "id": "approval-forged-signer",
+      "expected_terminal": "rejected",
+      "expected_failure_code": "invalid-approval-signature",
+      "service_delegate_invoked": false
+    },
+    {
+      "id": "approval-forged-signature",
+      "expected_terminal": "rejected",
+      "expected_failure_code": "invalid-approval-signature",
+      "service_delegate_invoked": false
+    }
+  ],
+  "exchange_replay_cases": [
+    {
+      "id": "exchange-first-use",
+      "existing_digest": null,
+      "presented_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expected_component": "first-use"
+    },
+    {
+      "id": "exchange-exact-replay",
+      "existing_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "presented_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expected_component": "exact-replay"
+    },
+    {
+      "id": "exchange-conflicting-replay",
+      "existing_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "presented_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "expected_component": "conflict"
+    }
+  ],
+  "malformed_document_cases": [
+    {
+      "id": "factory-submit-unknown-field",
+      "owner": "factory-control",
+      "expected_code": "invalid-submit-json"
+    },
+    {
+      "id": "supervisor-state-unknown-field",
+      "owner": "supervisor-reducer",
+      "expected_code": "invalid-state-json"
+    },
+    {
+      "id": "worker-task-unknown-field",
+      "owner": "worker-policy",
+      "expected_code": "invalid-task-request-json"
+    },
+    {
+      "id": "exchange-transfer-unknown-field",
+      "owner": "exchange-service",
+      "expected_code": "invalid-transfer-request"
+    },
+    {
+      "id": "exchange-envelope-malformed-json",
+      "owner": "exchange-service",
+      "expected_code": "invalid-envelope"
+    },
+    {
+      "id": "evolution-change-unknown-field",
+      "owner": "factory-evolution",
+      "expected_code": "invalid-change-request"
+    },
+    {
+      "id": "migration-state-unknown-field",
+      "owner": "state-migration",
+      "expected_code": "unexpected-state-fields"
+    },
+    {
+      "id": "closure-dossier-unknown-field",
+      "owner": "closure-evaluator",
+      "expected_code": "invalid-dossier"
+    }
+  ],
+  "lifecycle_expectation": {
+    "schema": "wasm-biotic.component-lifecycle-execution.v1",
+    "events": [
+      "initialize-incumbent",
+      "execute-incumbent-cycle",
+      "activate-successor",
+      "execute-successor-cycle",
+      "observe-regression",
+      "rollback-incumbent",
+      "restart",
+      "execute-post-rollback-cycle"
+    ],
+    "incumbent_graph_manifest_digest": "sha256:4d4bca5c0fbcb5651bbc326049a08bf495b555392a83093cdf756fd213d0dd09",
+    "successor_graph_manifest_digest": "sha256:a6a7e4d049198bf2ee06b97e6f2bb13ba367bc3367e42c7fff378f8c6f81c4b9",
+    "expected_component_cycles": 3,
+    "expected_mechanism_receipts": 21
+  },
+  "closure_cases": [
+    {
+      "id": "closure-complete-evidence",
+      "complete": true,
+      "expected_component": "closed",
+      "expected_native_complete": true
+    },
+    {
+      "id": "closure-missing-evidence",
+      "complete": false,
+      "expected_component": "not-yet",
+      "expected_native_complete": false
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wasm-biotic.local/contracts/component-complete/factory-graph.schema.json",
+  "title": "Wasm-Biotic component-complete factory graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "wit_package",
+    "root_node",
+    "nodes",
+    "bindings",
+    "invocations",
+    "state_schema"
+  ],
+  "properties": {
+    "schema": {
+      "const": "wasm-biotic.factory-graph.v1"
+    },
+    "wit_package": {
+      "const": "wasm-biotic:factory@0.1.0"
+    },
+    "root_node": {
+      "$ref": "#/$defs/node_id"
+    },
+    "previous_graph": {
+      "oneOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "state_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 21,
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/binding"
+      }
+    },
+    "invocations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/invocation"
+      }
+    },
+    "metadata": {
+      "$ref": "#/$defs/digest"
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,126}$"
+    },
+    "node_kind": {
+      "enum": [
+        "root",
+        "supervisor-reducer",
+        "worker-router",
+        "capability-router",
+        "planner-worker",
+        "builder-worker",
+        "validator-worker",
+        "reviewer-worker",
+        "packager-worker",
+        "continuity-worker",
+        "build-service",
+        "packaging-service",
+        "validation-service",
+        "review-service",
+        "continuity-service",
+        "scheduling-service",
+        "operations-service",
+        "exchange-service",
+        "factory-evolution",
+        "state-migration",
+        "closure-evaluator",
+        "admitted-tool"
+      ]
+    },
+    "host_capability": {
+      "enum": [
+        "blob-store",
+        "transaction-store",
+        "clock",
+        "component-runner",
+        "http-transport",
+        "key-service",
+        "activation",
+        "audit-log"
+      ]
+    },
+    "grant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability", "scope", "constraints"],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/host_capability"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraints": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "component_digest",
+        "world",
+        "exports",
+        "grants"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/node_id"
+        },
+        "kind": {
+          "$ref": "#/$defs/node_kind"
+        },
+        "component_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "world": {
+          "type": "string",
+          "pattern": "^wasm-biotic:factory/[a-z][a-z0-9-]*@0\\.1\\.0$"
+        },
+        "exports": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "grants": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/grant"
+          }
+        },
+        "state_schema": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "component_provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "node", "export"],
+      "properties": {
+        "kind": {
+          "const": "component"
+        },
+        "node": {
+          "$ref": "#/$defs/node_id"
+        },
+        "export": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "host_provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "capability"],
+      "properties": {
+        "kind": {
+          "const": "host"
+        },
+        "capability": {
+          "$ref": "#/$defs/host_capability"
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["consumer", "import", "provider"],
+      "properties": {
+        "consumer": {
+          "$ref": "#/$defs/node_id"
+        },
+        "import": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "oneOf": [
+            { "$ref": "#/$defs/component_provider" },
+            { "$ref": "#/$defs/host_provider" }
+          ]
+        }
+      }
+    },
+    "invocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["consumer", "target", "export"],
+      "properties": {
+        "consumer": {
+          "$ref": "#/$defs/node_id"
+        },
+        "target": {
+          "$ref": "#/$defs/node_id"
+        },
+        "export": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

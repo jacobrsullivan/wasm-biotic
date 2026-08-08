@@ -1,0 +1,111 @@
+package wasm-biotic:factory@0.1.0;
+
+/// Pure state transition policy. A reducer consumes canonical durable state and
+/// one durable event, then returns new state plus declarative commands. It has
+/// no host imports and therefore cannot perform a partially journalled effect.
+interface supervisor-reducer {
+    use capability-contract.{capability-request, capability-response};
+    use foundation.{approval-proof, blob-ref, digest, document, failure};
+    use worker-workflow.{worker-request, worker-response};
+
+    variant supervisor-event {
+        job-submitted(blob-ref),
+        worker-finished(worker-response),
+        capability-finished(capability-response),
+        wake-fired(tuple<string, digest>),
+        approval-recorded(approval-proof),
+        activation-observed(blob-ref),
+        exchange-received(blob-ref),
+        operator-command(blob-ref),
+        recovery-requested(blob-ref),
+    }
+
+    variant supervisor-command {
+        dispatch-worker(worker-request),
+        invoke-capability(capability-request),
+        schedule-wake(blob-ref),
+        request-activation(blob-ref),
+        publish-exchange(blob-ref),
+        append-audit(blob-ref),
+        emit-response(blob-ref),
+        require-approval(blob-ref),
+        stop(failure),
+    }
+
+    record reduction-request {
+        graph-digest: digest,
+        state: document,
+        event-sequence: u64,
+        event: supervisor-event,
+    }
+
+    record reduction {
+        previous-state-digest: digest,
+        next-state: document,
+        commands: list<supervisor-command>,
+        decision-digest: digest,
+    }
+
+    reduce: func(request: reduction-request) -> result<reduction, failure>;
+}
+
+/// Durable driver around the pure reducer. This is a component, not the native
+/// host. It journals events/commands, invokes graph dependencies and feeds
+/// receipts back to the reducer.
+interface factory-control {
+    use foundation.{blob-ref, failure};
+
+    submit: func(event: blob-ref) -> result<string, failure>;
+    inspect: func(job-id: string) -> result<blob-ref, failure>;
+    cancel: func(job-id: string, reason: blob-ref) -> result<blob-ref, failure>;
+    recover: func(recovery-request: blob-ref) -> result<blob-ref, failure>;
+}
+
+/// Version-to-version durable-state migration is factory policy and therefore
+/// executes as a component during graph activation.
+interface state-migration {
+    use foundation.{digest, document, failure};
+
+    /// The migration component receives the exact target manifest bytes so it
+    /// can update graph-bound worker and service identities without native
+    /// schema interpretation.
+    record state-migration-request {
+        previous-state: document,
+        target-graph: digest,
+        target-manifest: document,
+    }
+
+    migrate: func(request: state-migration-request) -> result<document, failure>;
+}
+
+/// Candidate graph construction, shadow comparison and promotion proposals are
+/// factory-evolution semantics, not activation-substrate behaviour.
+interface factory-evolution {
+    use foundation.{blob-ref, failure};
+
+    propose: func(change-request: blob-ref) -> result<blob-ref, failure>;
+    shadow: func(candidate-graph: blob-ref) -> result<blob-ref, failure>;
+    assess: func(evidence: blob-ref) -> result<blob-ref, failure>;
+}
+
+/// Inbound HTTP is byte transport in the substrate and policy in this exported
+/// component handler. The native listener must not route by factory semantics.
+interface factory-api {
+    use foundation.{blob-ref, failure};
+
+    record ingress-request {
+        request-id: string,
+        method: string,
+        path: string,
+        headers: list<tuple<string, list<u8>>>,
+        body: option<blob-ref>,
+    }
+
+    record ingress-response {
+        status: u16,
+        headers: list<tuple<string, list<u8>>>,
+        body: option<blob-ref>,
+    }
+
+    handle: func(request: ingress-request) -> result<ingress-response, failure>;
+}

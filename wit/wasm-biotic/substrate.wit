@@ -1,0 +1,234 @@
+package wasm-biotic:factory@0.1.0;
+
+/// Immutable, content-addressed byte storage. The substrate may verify bytes,
+/// quota and scope; it may not interpret a factory document's meaning.
+interface blob-store {
+    use foundation.{blob-ref, digest, failure};
+
+    put: func(media-type: string, content: list<u8>) -> result<blob-ref, failure>;
+    get: func(reference: blob-ref) -> result<list<u8>, failure>;
+    has: func(content-digest: digest) -> result<bool, failure>;
+}
+
+/// Generic durable key-to-blob references with optimistic atomic commit.
+/// Namespace and key names are opaque to the substrate.
+interface transaction-store {
+    use foundation.{blob-ref, digest, failure};
+
+    record versioned-value {
+        version: u64,
+        value: blob-ref,
+    }
+
+    record assertion {
+        namespace: string,
+        key: string,
+        expected-version: option<u64>,
+    }
+
+    variant mutation {
+        put(tuple<string, string, blob-ref>),
+        delete(tuple<string, string>),
+    }
+
+    record commit-request {
+        transaction-id: string,
+        assertions: list<assertion>,
+        mutations: list<mutation>,
+        idempotency-key: digest,
+    }
+
+    record commit-receipt {
+        transaction-id: string,
+        commit-version: u64,
+        committed-value-digest: digest,
+    }
+
+    read: func(namespace: string, key: string) -> result<option<versioned-value>, failure>;
+    commit: func(request: commit-request) -> result<commit-receipt, failure>;
+}
+
+/// Wall time and durable wake delivery only. Scheduling policy belongs to a
+/// component; the substrate merely records and emits the requested wake.
+interface clock {
+    use foundation.{digest, failure};
+
+    record wake-request {
+        wake-id: string,
+        not-before-ms: u64,
+        target-component: digest,
+        payload-digest: digest,
+        idempotency-key: digest,
+    }
+
+    record fired-wake {
+        wake-id: string,
+        fired-at-ms: u64,
+        payload-digest: digest,
+    }
+
+    now-ms: func() -> u64;
+    schedule-wake: func(request: wake-request) -> result<u64, failure>;
+    poll-wake: func(wake-id: string) -> result<option<fired-wake>, failure>;
+    cancel-wake: func(wake-id: string) -> result<bool, failure>;
+}
+
+/// Instantiates and meters a component selected by exact digest through the
+/// uniform `component-task` export. This is the only execution primitive:
+/// native programs and shell commands are excluded.
+interface component-runner {
+    use foundation.{blob-ref, capability-grant, digest, effect-receipt, failure, resource-limits, terminal-outcome};
+
+    record run-request {
+        run-id: string,
+        component-digest: digest,
+        input: blob-ref,
+        grants: list<capability-grant>,
+        limits: resource-limits,
+        idempotency-key: digest,
+    }
+
+    record run-completion {
+        run-id: string,
+        outcome: terminal-outcome,
+        receipt: effect-receipt,
+    }
+
+    start: func(request: run-request) -> result<string, failure>;
+    poll: func(operation-id: string) -> result<option<run-completion>, failure>;
+    cancel: func(operation-id: string) -> result<bool, failure>;
+}
+
+/// Bounded byte-oriented HTTP transport. URL, method, header and destination
+/// constraints are enforced from the component's immutable capability grant.
+interface http-transport {
+    use foundation.{blob-ref, digest, effect-receipt, failure};
+
+    enum method {
+        get,
+        head,
+        post,
+        put,
+        patch,
+        delete,
+    }
+
+    record header {
+        name: string,
+        value: list<u8>,
+    }
+
+    record request {
+        request-id: string,
+        method: method,
+        url: string,
+        headers: list<header>,
+        body: option<blob-ref>,
+        timeout-ms: u64,
+        idempotency-key: digest,
+        credential-handle: option<string>,
+    }
+
+    record response {
+        status: u16,
+        headers: list<header>,
+        body: option<blob-ref>,
+        receipt: effect-receipt,
+    }
+
+    start: func(request: request) -> result<string, failure>;
+    poll: func(operation-id: string) -> result<option<response>, failure>;
+    cancel: func(operation-id: string) -> result<bool, failure>;
+}
+
+/// Non-exportable key handles, signature operations and secure entropy. Raw
+/// private-key or credential bytes must never enter component memory.
+interface key-service {
+    use foundation.{digest, failure};
+
+    enum signature-algorithm {
+        ed25519,
+        ecdsa-p256-sha256,
+    }
+
+    record signature {
+        key-id: string,
+        algorithm: signature-algorithm,
+        bytes: list<u8>,
+    }
+
+    sign-digest: func(key-handle: string, payload: digest) -> result<signature, failure>;
+    verify-digest: func(key-id: string, payload: digest, signature: signature) -> result<bool, failure>;
+    random-bytes: func(length: u32) -> result<list<u8>, failure>;
+}
+
+/// Atomically stages and switches a complete graph manifest by digest. Health,
+/// promotion and rollback policy are inputs chosen by components, not host code.
+interface activation {
+    use foundation.{blob-ref, digest, effect-receipt, failure};
+
+    enum activation-state {
+        staged,
+        active,
+        rolled-back,
+        failed,
+    }
+
+    record activation-request {
+        activation-id: string,
+        graph-manifest: blob-ref,
+        expected-active-graph: option<digest>,
+        /// Exact opaque state pointer expected before the switch. The host
+        /// compares only blob identity; it never interprets state bytes.
+        expected-active-state: option<blob-ref>,
+        state-migration: option<digest>,
+        /// Opaque bytes returned by the declared migration component. This is
+        /// switched atomically with the graph pointer.
+        migrated-state: option<blob-ref>,
+        idempotency-key: digest,
+    }
+
+    record activation-status {
+        activation-id: string,
+        state: activation-state,
+        active-graph: option<digest>,
+        active-state: option<blob-ref>,
+        receipt: option<effect-receipt>,
+    }
+
+    /// Exact content-addressed canonical manifest currently selected by the
+    /// substrate. Components, rather than host code, interpret its graph
+    /// semantics and decide whether a request is bound to that graph.
+    active-manifest: func() -> result<option<blob-ref>, failure>;
+    /// Exact opaque state pointer selected with the active graph. Components
+    /// own its schema and meaning; the substrate enforces only blob identity.
+    active-state: func() -> result<option<blob-ref>, failure>;
+    stage: func(request: activation-request) -> result<activation-status, failure>;
+    commit: func(activation-id: string) -> result<activation-status, failure>;
+    status: func(activation-id: string) -> result<activation-status, failure>;
+    rollback: func(activation-id: string, target-graph: digest) -> result<activation-status, failure>;
+}
+
+/// Append-only, hash-chained evidence storage. Components determine which
+/// events are meaningful and construct their schema-labelled payloads.
+interface audit-log {
+    use foundation.{blob-ref, digest, failure, principal};
+
+    record audit-entry {
+        event-id: string,
+        actor: principal,
+        event-type: string,
+        payload: blob-ref,
+        previous-entry: option<digest>,
+        occurred-at-ms: u64,
+        idempotency-key: digest,
+    }
+
+    record audit-receipt {
+        sequence: u64,
+        entry-digest: digest,
+    }
+
+    append: func(entry: audit-entry) -> result<audit-receipt, failure>;
+    resolve: func(sequence: u64) -> result<option<audit-entry>, failure>;
+}

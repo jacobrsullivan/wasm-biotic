@@ -1,0 +1,21 @@
+[package]
+name = "wasm-biotic-component-equivalence"
+description = "Frozen-corpus differential harness for the transitional native oracle and component factory policy."
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+aiaf-v1 = { path = "../.." }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+wasmtime = "=43.0.1"
+wasm-biotic-service-policy-core = { path = "../../components/service-policy-core" }
+wasm-biotic-supervisor-reducer = { path = "../../components/supervisor-reducer" }
+wasm-biotic-worker-policy = { path = "../../components/workers/policy" }
+wasm-biotic-closure-evaluator = { path = "../../components/closure-evaluator" }
+wasm-biotic-exchange-service = { path = "../../components/exchange-service" }
+wasm-biotic-factory-control = { path = "../../components/factory-control" }
+wasm-biotic-factory-evolution = { path = "../../components/factory-evolution" }
+wasm-biotic-state-migration = { path = "../../components/state-migration" }

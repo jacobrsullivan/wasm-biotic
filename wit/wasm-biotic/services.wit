@@ -1,0 +1,154 @@
+package wasm-biotic:factory@0.1.0;
+
+/// The stable request and receipt envelope used by every capability-service
+/// component. Payload schemas are versioned independently and referenced by
+/// immutable blob digest so invocations survive component and host restarts.
+interface capability-contract {
+    use foundation.{approval-proof, authority-class, blob-ref, digest,
+        effect-receipt, failure, principal};
+
+    enum service-family {
+        build,
+        packaging,
+        validation,
+        review,
+        continuity,
+        scheduling,
+        operations,
+    }
+
+    /// This is the complete operation vocabulary carried from the transitional
+    /// native reference implementation. `command-execute` now means executing
+    /// an admitted tool component, never spawning a native program.
+    enum operation {
+        workspace-open,
+        workspace-snapshot,
+        workspace-patch,
+        candidate-build,
+        command-execute,
+        package-publish,
+        package-verify,
+        validation-prove,
+        validation-compare,
+        review-candidate,
+        evidence-publish,
+        evidence-resolve,
+        schedule-job,
+        deployment-initialize,
+        deployment-activate,
+        deployment-observe,
+        deployment-rollback,
+        operations-inspect,
+        factory-execute,
+        factory-provider-proposal,
+        factory-shadow,
+        factory-initialize,
+        factory-state-migrate,
+        factory-activate,
+        factory-observe,
+        factory-rollback,
+        factory-inspect,
+    }
+
+    /// Graph-bound identity of the component selected for a service family.
+    /// Workers carry these bindings explicitly; the generic runner verifies the
+    /// digest when it instantiates the target component.
+    record service-binding {
+        family: service-family,
+        component-digest: digest,
+    }
+
+    record capability-request {
+        request-id: string,
+        job-id: string,
+        caller: principal,
+        /// Exact digest of the graph-bound target service component. The
+        /// component router supplies this value and the generic component
+        /// runner enforces it against the instantiated artifact. Services echo
+        /// it in their response; embedding a component's own artifact digest
+        /// would otherwise be circular.
+        service-component: digest,
+        family: service-family,
+        operation: operation,
+        input: blob-ref,
+        authority: authority-class,
+        approval: option<approval-proof>,
+        deadline-ms: option<u64>,
+        idempotency-key: digest,
+    }
+
+    variant service-outcome {
+        succeeded(blob-ref),
+        rejected(failure),
+        failed(failure),
+        cancelled,
+        exhausted(failure),
+    }
+
+    record capability-response {
+        request-id: string,
+        service-component: digest,
+        outcome: service-outcome,
+        effect-receipts: list<effect-receipt>,
+        evidence: list<blob-ref>,
+    }
+}
+
+interface build-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface packaging-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface validation-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface review-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface continuity-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface scheduling-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+interface operations-service {
+    use capability-contract.{capability-request, capability-response};
+    invoke: func(request: capability-request) -> capability-response;
+}
+
+/// A component-owned router checks the factory's authority and approval policy,
+/// then delegates to the service component bound for the declared family.
+interface capability-router {
+    use capability-contract.{capability-request, capability-response};
+    route: func(request: capability-request) -> capability-response;
+}
+
+/// Factory-to-factory protocol semantics. Transport, keys and storage remain
+/// separate primitives; envelope and replay policy live in this component.
+interface exchange-service {
+    use foundation.{blob-ref, failure};
+
+    create-envelope: func(transfer-request: blob-ref) -> result<blob-ref, failure>;
+    receive-envelope: func(envelope: blob-ref) -> result<blob-ref, failure>;
+    revoke-authority: func(revocation-request: blob-ref) -> result<blob-ref, failure>;
+    inspect-transfer: func(transfer-id: string) -> result<blob-ref, failure>;
+}
+
+/// North-Star/closure semantics are pure component policy over a fixed dossier.
+interface closure-evaluator {
+    use foundation.{blob-ref, failure};
+    evaluate: func(dossier: blob-ref) -> result<blob-ref, failure>;
+}

@@ -1,0 +1,20 @@
+[package]
+name = "wasm-biotic-exchange-service"
+description = "Signed, replay-safe factory exchange policy as a Wasm-Biotic component."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+dlmalloc.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+wit-bindgen.workspace = true
+
+[dev-dependencies]
+ring = "=0.17.14"
+wasmtime = { version = "43.0.2", default-features = false, features = ["component-model", "cranelift", "runtime", "std"] }

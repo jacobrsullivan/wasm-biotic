@@ -1,0 +1,15 @@
+{
+  "worker_id": "worker-alpha",
+  "worker_role": "evaluator-worker",
+  "supported_task_kinds": [
+    "bounded-analysis"
+  ],
+  "required_worlds": [
+    "workspace-observe",
+    "memory-access"
+  ],
+  "authority_ceiling": "observe",
+  "isolation_profile": "artifact-sandbox",
+  "result_contract": "bounded-evaluation-result",
+  "max_concurrency": 1
+}

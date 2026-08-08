@@ -1,0 +1,34 @@
+# Build artifacts
+target/
+*.wasm
+
+# SQLite store (runtime data, not source)
+mvp-01/store/
+mvp-02/store/
+
+# Benchmark output (runtime data, not source)
+mvp-02/benchmark-runs/
+
+# macOS
+.DS_Store
+
+# Worktrees
+.worktrees/
+.aiaf-local/
+
+# Local credentials (never commit)
+.env
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Legacy project archive is held in external NAS custody and is not tracked here
+/project-archive
+
+# Book-narrative binary media (large; backed up to NAS under BackupDesktop/wasm-biotic)
+*.mp4
+book-narrative/**/*.pdf

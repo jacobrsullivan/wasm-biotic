@@ -1,0 +1,21 @@
+{
+  "provider_id": "provider:openai:factory-01",
+  "provider_mode": "open_ai_responses",
+  "models": [
+    {
+      "model_ref": "gpt-5.4-mini",
+      "input_cost_per_million_microunits": 750000,
+      "output_cost_per_million_microunits": 4500000,
+      "supports_json_schema": true,
+      "supports_function_tools": true
+    }
+  ],
+  "capability_summary": "OpenAI Responses transport for the bounded Factory_01 line.",
+  "policy_summary": "Local-first governed Factory_01 LLM drive.",
+  "active": true,
+  "api_base_url": "https://api.openai.com/",
+  "api_key_env_var": "OPENAI_API_KEY",
+  "organization_env_var": null,
+  "project_env_var": null,
+  "request_timeout_ms": 60000
+}

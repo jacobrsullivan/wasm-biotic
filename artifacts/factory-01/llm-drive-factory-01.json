@@ -1,0 +1,11 @@
+{
+  "provider_ref": "provider:openai:factory-01",
+  "model_ref": "gpt-5.4-mini",
+  "generation_policy": {
+    "generation_policy_id": "generation-policy:factory-01",
+    "max_output_tokens": 1024,
+    "max_retries": 1,
+    "summary": "Factory_01 bounded single-factory generation policy"
+  },
+  "max_cycles": 1
+}

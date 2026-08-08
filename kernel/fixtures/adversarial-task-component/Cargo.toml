@@ -1,0 +1,21 @@
+[package]
+name = "wasm-biotic-kernel-adversarial-task-fixture"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wit-bindgen = { version = "=0.51.0", default-features = false, features = ["macros", "realloc"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+dlmalloc = { version = "=0.2.14", default-features = false, features = ["global"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = "symbols"

@@ -1,0 +1,59 @@
+package wasm-biotic:factory@0.1.0;
+
+/// Shared ABI implemented by each governed worker component. Role behaviour is
+/// inside the component selected by digest; the substrate never switches on
+/// these role values.
+interface worker-workflow {
+    use foundation.{blob-ref, digest, effect-receipt, failure, principal};
+    use capability-contract.{service-binding};
+
+    enum worker-role {
+        planner,
+        builder,
+        validator,
+        reviewer,
+        packager,
+        continuity-worker,
+    }
+
+    record worker-request {
+        execution-id: string,
+        job-id: string,
+        role: worker-role,
+        worker: principal,
+        /// Exact service component identities admitted for this execution.
+        /// A worker must not discover or select native service implementations.
+        service-bindings: list<service-binding>,
+        input: blob-ref,
+        checkpoint: option<blob-ref>,
+        lease-digest: digest,
+        attempt: u32,
+        deadline-ms: option<u64>,
+    }
+
+    variant worker-outcome {
+        completed(blob-ref),
+        blocked(blob-ref),
+        rejected(failure),
+        failed(failure),
+        cancelled,
+    }
+
+    record worker-response {
+        execution-id: string,
+        worker-component: digest,
+        outcome: worker-outcome,
+        checkpoint: option<blob-ref>,
+        receipts: list<effect-receipt>,
+        evidence: list<blob-ref>,
+    }
+
+    execute: func(request: worker-request) -> worker-response;
+}
+
+/// Component-owned selection and dispatch. The router verifies that the role,
+/// world and component digest match the activated graph before execution.
+interface worker-router {
+    use worker-workflow.{worker-request, worker-response};
+    dispatch: func(request: worker-request) -> worker-response;
+}

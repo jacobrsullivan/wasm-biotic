@@ -1,0 +1,304 @@
+{
+  "schema": "wasm-biotic.native-tcb-inventory.v1",
+  "crate": {
+    "name": "wasm-biotic-kernel",
+    "version": "0.1.0",
+    "source_revision": {
+      "status": "content-addressed-source-closure",
+      "value": "sha256:474e316efc9a8a3686300fd0ed0ea274a9780b096e0f3d2dad57473c99cd4322",
+      "algorithm": "SHA-256 of '<file-sha256><two spaces><repository-relative-path><LF>' in bytewise path order",
+      "scope": "kernel/Cargo.toml, kernel/Cargo.lock, kernel/src/**/*.rs and wit/wasm-biotic/*.wit; this self-referential inventory is excluded"
+    },
+    "native_artifact_sha256": {
+      "status": "release-binding-required",
+      "value": null
+    }
+  },
+  "conformance": {
+    "component_complete_claim": true,
+    "status": "component-complete-bounded-external-release",
+    "reason": "For the exact graph and bounded-external profile named by a conforming release bundle, every factory role, service, workflow and policy executes as a Wasm component. The reachable native kernel is limited to the eight declared generic substrate mechanisms and does not implement factory semantics. Admission requires a canonical Ed25519 certificate over the exact component/package closure and this inventory, verified against an independently persisted operator public key; native code treats semantic reports as opaque, digest-bound evidence. A release claim is valid only when this exact inventory, its signed package cohort, the optimized native artifact and the public-key-verifiable conformance reports are retained together by a content-addressed release manifest. HTTP is a generic byte-transport mechanism whose effective authority is the intersection of an exact signed per-principal constraint and immutable operator capacity; it does not move workflow or provider semantics into native code.",
+    "enforced_invariants": [
+      "receipt executor identity remains the authoritative raw graph-node digest",
+      "derived executable identity and source provenance are persisted separately",
+      "R2 static composition retains one independently recomputed principal per source node and rewrites every direct host import to its content-derived per-consumer alias",
+      "R2 root and dynamic executables expose only the exact alias set in their signed static closure; retained v1 packages remain on the explicit graph-union compatibility path",
+      "component-runner operations, clock wakes, activation handles and transaction idempotency are graph-qualified and principal-bound",
+      "R2 activation commit atomically transfers exactly one handle owner from the source graph principal to the admitted target graph's exact same principal seed only when that target principal retains the activation/switch import; rollback applies the same rule to the verified last-known-good graph",
+      "native operator evidence inspection can read a persisted generic completion but is not linked into any component world and cannot satisfy guest poll or cancel authority",
+      "every R2 alias call records its enclosing executable, graph-qualified runtime principal, exact request digest and stable success or failure outcome",
+      "R2 legacy RunRequest grants are canonical non-escalating compatibility and resource metadata derived from the target executable's signed principal closure; callable authority remains exclusively the immutable selected alias context",
+      "local configuration cannot exceed manifest-bound ceilings or namespaces",
+      "every admission must carry a valid canonical certificate binding the exact release closure and this compiled native inventory",
+      "offline semantic validation report bytes are hashed but never interpreted by native code",
+      "first active-root bootstrap and selection require the immutable operator-pinned manifest digest; inactive candidate admission remains possible",
+      "root exports cannot run unless their manifest is the durable active manifest",
+      "bounded HTTP operations are owned by the exact graph, principal seed, alias and constraint digest; the dispatch boundary and terminal receipt are durable and a possibly dispatched operation is never automatically retried",
+      "HTTP destinations, methods, headers, DNS answers, TLS peers, credentials and resource budgets are the runtime intersection of signed v3 authority and immutable operator v2 capacity"
+    ]
+  },
+  "engine": {
+    "name": "wasmtime",
+    "version": "43.0.1",
+    "cargo_default_features": false,
+    "cargo_features": [
+      "anyhow",
+      "component-model",
+      "cranelift",
+      "runtime",
+      "std"
+    ],
+    "enabled_features": [
+      "component-model",
+      "epoch-interruption",
+      "fuel-metering",
+      "store-limits"
+    ]
+  },
+  "typed_abis": [
+    "wasm-biotic:factory/factory-root@0.1.0",
+    "wasm-biotic:factory/admitted-task-component@0.1.0",
+    "wasm-biotic:factory/admitted-tool-component@0.1.0",
+    "s32-pair-to-s32@1"
+  ],
+  "compiled_wit_package": {
+    "package": "wasm-biotic:factory@0.1.0",
+    "artifact_schema": "wasm-biotic.wit-package.v1",
+    "sha256": "sha256:b7e64a6a131af7a89ab27a0488b1f020f5e26620a1c10abbaeb06f27d6ed2633"
+  },
+  "native_boundary": {
+    "operator_capacity": {
+      "persistence": "explicit-init-and-immutable",
+      "configuration_schema": "wasm-biotic.operator-mechanism-capacity.v1 or wasm-biotic.operator-mechanism-capacity.v2",
+      "package_selectable": false,
+      "max_component_fuel": 50000000,
+      "max_component_memory_bytes": 67108864,
+      "max_root_instances": 256,
+      "max_root_memories": 128,
+      "max_root_tables": 128,
+      "max_root_table_elements": 1000000,
+      "max_task_instances": 256,
+      "max_task_memories": 128,
+      "max_task_tables": 128,
+      "max_task_table_elements": 1000000,
+      "successor_rule": "graph requirements must fit capacity; effective root fuel and memory are the graph/operator minimum"
+    },
+    "release_certification": {
+      "schema": "wasm-biotic.release-certification.v1",
+      "signature_algorithm": "ed25519",
+      "trust_persistence": "explicit-init-and-immutable-public-key",
+      "package_selectable_trust": false,
+      "private_key_location": "external offline certifier only; never release or mechanism state",
+      "native_report_interpretation": false,
+      "bound_closure": [
+        "graph-manifest",
+        "native-tcb-inventory",
+        "wit-package-and-worlds",
+        "metadata",
+        "raw-components",
+        "per-consumer-scoped-components",
+        "derived-executables",
+        "derivation-descriptor",
+        "substrate-profile",
+        "composition-configurations",
+        "constraints",
+        "strict-validation-report"
+      ]
+    },
+    "allowlisted_interfaces": [
+      "activation",
+      "audit-log",
+      "blob-store",
+      "clock",
+      "component-runner",
+      "http-transport",
+      "key-service",
+      "transaction-store"
+    ],
+    "implemented_interfaces": [
+      "activation",
+      "audit-log",
+      "blob-store",
+      "clock",
+      "component-runner",
+      "http-transport",
+      "key-service",
+      "transaction-store"
+    ],
+    "interface_profiles": {
+      "activation": {
+        "mode": "persistent-local",
+        "mechanism": "operator-pinned exact first-manifest trust plus independently pinned release-certifier public key, atomic exact verified-manifest selection, active BlobRef resolution and last-known-good restoration; an R2 commit or rollback atomically rekeys its one principal-owned handle to the verified destination graph's exact same principal seed and activation/switch import"
+      },
+      "audit-log": {
+        "mode": "persistent-local",
+        "mechanism": "opaque append-only SHA-256 chain"
+      },
+      "blob-store": {
+        "mode": "persistent-local",
+        "mechanism": "quota-bound immutable SHA-256 blobs"
+      },
+      "clock": {
+        "mode": "persistent-local",
+        "mechanism": "wall clock plus explicitly requested durable principal-owned wakes; past or equal deadlines are immediately due and only future delay is horizon-bounded"
+      },
+      "component-runner": {
+        "mode": "persistent-local",
+        "mechanism": "manifest-edge-authorized exact-digest Component Model instantiation with principal-owned operation lifecycle plus fuel, memory, output and wall-time bounds; R2 legacy request grants are bounded by the canonical executable principal closure and cannot install callable authority"
+      },
+      "http-transport": {
+        "mode": "bounded-external",
+        "mechanism": "exact alias-bound signed v3 constraints intersected with immutable operator v2 capacity; HTTPS-only explicit HTTP/1.1 framing, one-shot DNS with full-answer CIDR rejection and pinned selected address, TLS1.3 WebPKI validation plus signed SPKI pins, no redirects or retries, bounded URL/method/header/body/time/concurrency, opaque owner-only credential injection with reflection rejection, and durable owner-qualified dispatch/outcome records"
+      },
+      "key-service": {
+        "mode": "persistent-local",
+        "mechanism": "non-exported Ed25519 key material plus OS secure entropy"
+      },
+      "transaction-store": {
+        "mode": "persistent-local",
+        "mechanism": "opaque exact-scope key-to-blob CAS transactions with principal-qualified idempotency"
+      }
+    },
+    "adapters": {
+      "storage": [
+        "configured-root local filesystem",
+        "explicit operator capacity document",
+        "exclusive advisory mechanisms.lock writer fencing",
+        "durable monotonic mechanism-state generation fencing",
+        "temporary-file fsync and atomic rename",
+        "JSON mechanism journal"
+      ],
+      "network": [
+        "Rust standard-library TCP sockets and one-shot DNS only in src/http_transport.rs",
+        "rustls 0.23.38 TLS1.3 with WebPKI roots, optional owner-only operator DER roots and signed peer-SPKI pins",
+        "explicit bounded HTTP/1.1 adapter with no proxy, redirect, cookie, compression or retry machinery"
+      ],
+      "keys": [
+        "ring 0.17.14 Ed25519 and system secure random"
+      ],
+      "clock": [
+        "Rust standard-library system wall clock",
+        "Wasmtime epoch interruption timer"
+      ]
+    }
+  },
+  "operating_system_dependencies": [
+    "configured-root filesystem persistence and fsync/rename semantics",
+    "operating-system advisory file-lock semantics",
+    "operating-system wall clock",
+    "operating-system secure entropy",
+    "Rust standard-library memory, synchronization and timer threads",
+    "operating-system DNS resolver and TCP socket stack for explicitly enabled bounded HTTP",
+    "standard input/output for the generic local launcher transport",
+    "Wasmtime platform runtime"
+  ],
+  "dependency_lock": {
+    "path": "Cargo.lock",
+    "sha256": "sha256:870efdeae99ac95fc5003069436addc21bde6e4d46ff0d55116f96735443a863",
+    "production_tree_binding": "release-evidence-required"
+  },
+  "operator_capacity_example": {
+    "path": "operator-config.example.json",
+    "schema": "wasm-biotic.operator-mechanism-capacity.v1",
+    "sha256": "sha256:447b3cb9d67b853b8ac279c357553d759a419484ebd6b165a06ad5724a2234fe",
+    "authority": "operator-reviewed; never package-selected"
+  },
+  "http_operator_capacity_example": {
+    "path": "operator-config.http.example.json",
+    "schema": "wasm-biotic.operator-mechanism-capacity.v2",
+    "sha256": "sha256:737a78860f6068f27eff19f8b3cb49a575d994922f0eb9a4c0073a1e87baaf8e",
+    "authority": "operator-reviewed explicit external transport capacity; never package-selected"
+  },
+  "fixture_artifacts": [
+    {
+      "path": "fixtures/artifacts/adversarial-task.wasm",
+      "sha256": "sha256:2962c922834f8974eb73600cf1590891866f205e151c809ba2ae5f90df017f46"
+    },
+    {
+      "path": "fixtures/artifacts/mechanism-task.wasm",
+      "sha256": "sha256:c78cd241f4fd641c5651413376584d0c592c96c7213bbf46df7b9805b561e111"
+    },
+    {
+      "path": "fixtures/artifacts/root.wasm",
+      "sha256": "sha256:647f56f1af68a9df793460cf6d30f0d032bed610168cfe43a3f1f97e3ee754c6"
+    },
+    {
+      "path": "fixtures/artifacts/task.wasm",
+      "sha256": "sha256:598813124ab2866a07c00e4e2382fe8946db61b705cfe92bd5b6a8ae342ae8db"
+    }
+  ],
+  "reachable_native_modules": [
+    {
+      "path": "src/bin/wasm-biotic-kernel.rs",
+      "sha256": "sha256:e935adf17969e37241478c1a678e2a3fbec4de75ea2f75d84b33f7d0a667cae1"
+    },
+    {
+      "path": "src/bindings.rs",
+      "sha256": "sha256:99e8e18f387990d8f745c96c52e66b3a609c74f0f8e8e779ef5db1448b7341e0"
+    },
+    {
+      "path": "src/certification.rs",
+      "sha256": "sha256:316e51042a4958f9b20712d4e78d0d4e52b77e970bdf2ccefc6231d2202aec52"
+    },
+    {
+      "path": "src/digest.rs",
+      "sha256": "sha256:db55251696697d54a2d66c0823143cd79953b03dd031ec8764d5709ddda11493"
+    },
+    {
+      "path": "src/error.rs",
+      "sha256": "sha256:5b3256fd9bba8ebc634efd393901b04ad9db07676cbc123329595f51cf03cf9d"
+    },
+    {
+      "path": "src/host.rs",
+      "sha256": "sha256:57a4c3196c7179970f59b413da1cf5717babdca9ec500a5166a5c01d38d64056"
+    },
+    {
+      "path": "src/http_transport.rs",
+      "sha256": "sha256:b815c81669c012aa62c585daf45bbdc970a5192f93c024b742f28762de8192e2"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "sha256:188308549fe23d7c3fc7dc006be7a3f81fc8cf8ab2631ee60230d79adb2403e1"
+    },
+    {
+      "path": "src/local.rs",
+      "sha256": "sha256:e173fb12464fa812e530a92d2b5519c4044ffdf5f74b6d37f7c561878605af75"
+    },
+    {
+      "path": "src/manifest.rs",
+      "sha256": "sha256:5159cedf97c8e3316c0d3676c64b5058d0096b4981f1e35df05e19a0261685db"
+    },
+    {
+      "path": "src/root_runtime.rs",
+      "sha256": "sha256:0b5560fb1c2a53ff86b142d00c620f97b3df545c3a80ba46d545f7dce5a27f64"
+    },
+    {
+      "path": "src/runtime.rs",
+      "sha256": "sha256:d664d9c12f0ec1befe13a5833614d3bb139b3270192601244058f49af0998f03"
+    }
+  ],
+  "negative_attestations": {
+    "native_program_execution_reachable": false,
+    "ambient_file_system_exposed_to_components": false,
+    "ambient_environment_exposed_to_components": false,
+    "ambient_network_exposed_to_components": false,
+    "native_domain_modules_reachable": false
+  },
+  "verification_harness": {
+    "durability_fault_controller": "policy-neutral one-shot controller available only through the explicit conformance constructor; ordinary constructors and the production CLI install a disarmed controller and expose no input that can arm it",
+    "durability_fault_matrix": "covers blob and component content writes, transaction and audit commits, component and HTTP dispatch/completion/receipt replay, HTTP pre-dispatch cancellation and post-boundary indeterminate no-retry recovery, activation commit/rollback/boot recovery with paired opaque graph/state pointers, stale two-handle writer fencing, and principal-owned runner, wake and activation handles across restart, including one-owner activation handoff to an admitted target with the exact seed/import and rejection of stale-source, wrong-seed and missing-import access",
+    "operator_evidence_inspection": "read-only native inspection returns a persisted generic component completion; the same R2 operation remains inaccessible to unscoped or wrong-principal component-runner WIT poll and cancel calls"
+  },
+  "limitations": [
+    "The accepted executable cache is bound through canonical manifest metadata and a derivation descriptor; independent recomposition is release evidence rather than native policy.",
+    "Semantic role coverage and complete-graph execution are release evidence produced outside the native kernel; the kernel neither interprets nor substitutes for those proofs.",
+    "Bounded HTTP is available only when both immutable operator v2 capacity and an exact signed v3 per-principal constraint enable it; v1/v2 signed profiles and v1 operator capacity remain transport-disabled.",
+    "The native HTTP adapter implements only generic byte transport and enforcement. Origin identities, credential handles and request data are opaque; provider protocol, workflow, retry policy and response meaning remain component semantics.",
+    "R2 per-consumer authority depends on signed deterministic import rewriting and composition; the kernel independently re-derives every principal and alias, verifies the raw/scoped/executable surfaces and links no canonical host imports on the R2 path.",
+    "The in-process authority trace is diagnostic runtime evidence; durable authority is carried by the signed principal inventory, admitted graph bindings, principal-qualified operation records and execution provenance.",
+    "Key handles are operator-issued bearer capabilities behind an explicit per-consumer key-service grant; components cannot create, enumerate or export native key material.",
+    "The component-owned capability services are bounded deterministic reference services; this release does not claim feature parity with unrestricted compilers, workspaces, providers or deployment systems.",
+    "The v1 certifier public key is immutable after mechanism initialization; explicit operator key rotation and revocation governance remain outside package authority.",
+    "The retained optimized native artifact is exact to its attested host target and toolchain. Another operating system, architecture or toolchain requires a new native attestation and release bundle."
+  ]
+}

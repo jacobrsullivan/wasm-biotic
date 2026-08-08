@@ -1,0 +1,5 @@
+package wasm-biotic:reference-task;
+
+world reference-task {
+    export transform: func(input: s32) -> s32;
+}

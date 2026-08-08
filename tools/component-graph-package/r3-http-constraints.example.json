@@ -1,0 +1,60 @@
+{
+  "schema": "wasm-biotic.http-transport-constraints.v1",
+  "origins": [
+    {
+      "id": "exchange-origin",
+      "scheme": "https",
+      "host": "127.0.0.1",
+      "port": 443,
+      "path_prefixes": [
+        "/exchange"
+      ],
+      "dns": {
+        "policy": "exact-cidrs",
+        "cidrs": [
+          "127.0.0.1/32"
+        ]
+      },
+      "tls": {
+        "minimum_version": "tls-1.3",
+        "server_name": "127.0.0.1",
+        "peer_spki_sha256": [
+          "sha256:06b7db3b4ba91dfd385118d56bb153b4ba53bd9178ceda3a98d31adb8b147e67"
+        ]
+      }
+    }
+  ],
+  "methods": [
+    "post"
+  ],
+  "request_headers": {
+    "allowed_names": [
+      "authorization",
+      "content-type"
+    ],
+    "max_count": 8,
+    "max_total_bytes": 8192
+  },
+  "response_headers": {
+    "exposed_names": [
+      "content-type"
+    ],
+    "max_count": 16,
+    "max_total_bytes": 16384
+  },
+  "max_url_bytes": 2048,
+  "max_request_body_bytes": 1048576,
+  "max_response_body_bytes": 1048576,
+  "max_timeout_ms": 10000,
+  "max_concurrency": 2,
+  "redirects": "deny",
+  "credential_bindings": [
+    {
+      "handle": "exchange-api",
+      "origin_id": "exchange-origin",
+      "header_name": "authorization",
+      "value_prefix": "Bearer ",
+      "placement": "append-to-header-value"
+    }
+  ]
+}
