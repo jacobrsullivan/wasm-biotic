@@ -2,10 +2,11 @@
 //! bindings. Pass the release `.wasm` path as the sole argument.
 
 use std::{collections::BTreeMap, path::PathBuf};
-use wasm_biotic_supervisor_reducer::{
-    DigestValue, ServiceFamilyValue, Stage, SupervisorStateV1,
+use wasm_biotic_supervisor_reducer::{DigestValue, ServiceFamilyValue, Stage, SupervisorStateV1};
+use wasmtime::{
+    Config, Engine, Store,
+    component::{Component, Linker},
 };
-use wasmtime::{Config, Engine, Store, component::{Component, Linker}};
 
 wasmtime::component::bindgen!({
     path: "../../wit/wasm-biotic",
@@ -64,7 +65,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let reduction = bindings
         .wasm_biotic_factory_supervisor_reducer()
         .call_reduce(&mut store, &request)?
-        .map_err(|failure| format!("component rejected smoke event: {}: {}", failure.code, failure.message))?;
+        .map_err(|failure| {
+            format!(
+                "component rejected smoke event: {}: {}",
+                failure.code, failure.message
+            )
+        })?;
     assert_eq!(reduction.commands.len(), 1);
     assert!(matches!(
         &reduction.commands[0],

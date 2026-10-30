@@ -24,7 +24,6 @@ Archived design material remains in the repository as historical and planning re
 - `contracts/` — fixed-interface contract anchors
 - `artifacts/` — carried fixtures and sample artifacts
 - `scenarios/` — curated runner scenario index
-- `design-and-planning/` — roadmap and architectural design corpus
 - `reference-docs/` — broader Wasm-Biotic reference material
 - `project-archive/` — legacy MVP and RC material in external NAS custody; not tracked in this repository
 - `notes/roadmap.md` — short-term focus and trajectory (Active Development entry)
@@ -61,9 +60,9 @@ The live root package is a Rust-local kernel and observer system. Wasmtime-backe
 - `reqwest` (rustls; outbound calls from the runner)
 - `wasmtime` 43, `wasmparser`, `wit-parser`, `wat` (live component packaging and execution in `src/execution/component.rs`)
 
-## Repository Policy
+## License
 
-- **All repos must be private.** Do not create public repositories for this project.
+- Dual-licensed under `MIT OR Apache-2.0` ([`LICENSE-MIT`](LICENSE-MIT) and [`LICENSE-APACHE`](LICENSE-APACHE)).
 
 ## Working With This Project
 

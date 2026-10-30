@@ -14,7 +14,7 @@ use wasm_biotic_kernel::{KernelError, LocalConfig, LocalMechanisms, Sha256Digest
 const ECHO_TASK: &[u8] = include_bytes!("../fixtures/artifacts/task.wasm");
 const ADVERSARIAL_TASK: &[u8] = include_bytes!("../fixtures/artifacts/adversarial-task.wasm");
 const CAPABILITY_ROUTER: &[u8] = include_bytes!(
-    "../../components/capability-router/tests/artifacts/capability-router-component.wasm"
+    "../../artifacts/fixtures/component-complete-history/capability-router-component.wasm"
 );
 const FIXED_TIME_MS: u64 = 1_787_000_123_456;
 static NEXT_TEMP: AtomicUsize = AtomicUsize::new(0);
@@ -783,8 +783,9 @@ fn private_key_bytes_and_credentials_do_not_cross_the_component_boundary() {
 
 #[test]
 fn historical_adversarial_report_is_closed_and_bound_to_its_certified_inventory() {
-    let report_path = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../artifacts/component-complete/2026-08-02-adversarial-isolation.v1.json");
+    let report_path = Path::new(env!("CARGO_MANIFEST_DIR")).join(
+        "../artifacts/fixtures/component-complete-history/2026-08-02-adversarial-isolation.v1.json",
+    );
     let report: Value = serde_json::from_slice(&fs::read(report_path).unwrap()).unwrap();
     assert_eq!(
         report["schema"].as_str(),
@@ -793,9 +794,7 @@ fn historical_adversarial_report_is_closed_and_bound_to_its_certified_inventory(
     assert_eq!(report["component_complete_claim"].as_bool(), Some(false));
     let certified_inventory_digest = report["native_tcb_inventory"]["sha256"].as_str().unwrap();
     let certified_inventory_path = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../artifacts/component-complete/r1-packages")
-        .join("sha256-4d4bca5c0fbcb5651bbc326049a08bf495b555392a83093cdf756fd213d0dd09")
-        .join("certified-kernel-tcb")
+        .join("../artifacts/fixtures/component-complete-history")
         .join(format!(
             "{}.json",
             certified_inventory_digest.replace(':', "-")

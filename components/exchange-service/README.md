@@ -12,3 +12,8 @@ expiry, artifact availability, revocation and replay state before committing.
 
 The component does not import a shell, process, ambient filesystem, raw socket,
 environment or credential bytes.
+
+Run its host and compiled-component coverage from the repository root with
+`./scripts/verify.sh components`. The verifier builds the ignored
+`wasm32-wasip2` adapter fixture before running tests, so no hidden workspace
+artifact is required.

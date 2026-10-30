@@ -81,16 +81,16 @@ layout and separates operator initialization from package admission:
 # exact initial manifest trust anchor and the reviewed certifier's raw Ed25519
 # public key. Pass the reviewed config below when the graph needs explicitly
 # allowed opaque namespaces or different generic bounds.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
+cargo run --locked --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
   init PATH_TO_MECHANISM_STATE sha256:TRUSTED_MANIFEST CERTIFIER_PUBLIC_KEY_HEX [kernel/operator-config.example.json]
 
 # Verify, store and instantiate a candidate without switching activation.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
+cargo run --locked --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
   admit PATH_TO_GRAPH_PACKAGE PATH_TO_MECHANISM_STATE [PATH_TO_HTTP_MATERIALS]
 
 # Bootstrap or boot the active graph, then accept one typed JSON ingress
 # envelope per stdin line and emit one typed JSON result per stdout line.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
+cargo run --locked --manifest-path kernel/Cargo.toml --bin wasm-biotic-kernel -- \
   serve PATH_TO_ACTIVE_GRAPH_PACKAGE PATH_TO_MECHANISM_STATE [PATH_TO_HTTP_MATERIALS]
 ```
 
@@ -123,22 +123,23 @@ stores neither the credential nor the material path.
 
 ## Verification
 
-Run isolated verification with:
+From the repository root, run the checked-in verification scope:
 
 ```sh
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
 CARGO_TARGET_DIR=/tmp/wasmbiotic-kernel-target \
-cargo test --locked --offline --manifest-path kernel/Cargo.toml
-
-python3 kernel/tools/native_tcb_inventory.py --check
-python3 -m unittest kernel/tools/test_native_tcb_inventory.py
+./scripts/verify.sh kernel
 ```
 
+The complete `./scripts/verify.sh` command also checks the machine-readable
+native inventory and its Python regression tests. Four HTTP durability tests
+bind an ephemeral loopback TLS listener, so a sandbox must permit local socket
+binding. The exact source archive remains separately configured for fully
+offline Cargo operation.
+
 [`native-tcb.json`](native-tcb.json) is the machine-readable native boundary
-inventory. For the exact signed graph, TCB and bounded-local profile named by
-the current R2 release, it declares the component-complete architecture claim.
-That claim is deliberately exact to its signed bounded-external profile: the
+inventory. For the exact signed R4 cohort—which freezes the R3 runtime and its
+R2 per-consumer authority model—it declares the component-complete architecture
+claim. That claim is deliberately exact to its signed bounded-external profile: the
 services implement bounded semantics, and a changed graph, profile, native
 closure or target requires a new release. Release certification
 authenticates offline semantic validation and exact bytes; it does not move

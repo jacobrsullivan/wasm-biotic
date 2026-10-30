@@ -54,9 +54,9 @@ under `contracts/component-complete/` and `wit/wasm-biotic/`:
 - `serde`
 - `serde_json`
 
-## Repository Policy
+## License
 
-- **All repos must be private.** Do not create public repositories for this project.
+- Dual-licensed under `MIT OR Apache-2.0` ([`LICENSE-MIT`](LICENSE-MIT) and [`LICENSE-APACHE`](LICENSE-APACHE)).
 
 ## Working With This Project
 

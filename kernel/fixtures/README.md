@@ -13,33 +13,23 @@ test components, not members of a release graph.
   deliberately traps, loops, exceeds bounds, forges references and attempts
   primitive-scope escapes. It is used only for fail-closed isolation evidence.
 
-All four crates are `no_std` Component Model builds. Regenerate the checked-in exact
-fixtures with the isolated toolchain:
+All four crates are `no_std` Component Model builds. Their exact fixture bytes
+are generated and ignored build output, not Git-owned source. The top-level
+`./scripts/verify.sh python` scope builds them, installs the four stable names
+under `kernel/fixtures/artifacts/`, and checks their hashes against
+`native-tcb.json`.
+
+To build one fixture manually in an ordinary pinned checkout, use its lockfile
+and an explicit target directory. For example:
 
 ```sh
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
 CARGO_TARGET_DIR=/tmp/wasmbiotic-root-fixture-target \
-cargo build --offline --release --target wasm32-wasip2 \
+cargo build --locked --release --target wasm32-wasip2 \
   --manifest-path kernel/fixtures/root-component/Cargo.toml
-
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
-CARGO_TARGET_DIR=/tmp/wasmbiotic-task-fixture-target \
-cargo build --offline --release --target wasm32-wasip2 \
-  --manifest-path kernel/fixtures/task-component/Cargo.toml
-
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
-CARGO_TARGET_DIR=/tmp/wasmbiotic-mechanism-task-fixture-target \
-cargo build --offline --release --target wasm32-wasip2 \
-  --manifest-path kernel/fixtures/mechanism-task-component/Cargo.toml
-
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
-CARGO_TARGET_DIR=/tmp/wasmbiotic-adversarial-task-fixture-target \
-cargo build --offline --release --target wasm32-wasip2 \
-  --manifest-path kernel/fixtures/adversarial-task-component/Cargo.toml
 ```
 
-The committed artifacts and digests are under `artifacts/`.
+That command writes beneath the named `/tmp` target directory; it does not
+install into `kernel/fixtures/artifacts/`. Use `./scripts/verify.sh python` to
+build all four, install the stable ignored filenames and check their reviewed
+digests in `../native-tcb.json`. The signed offline source snapshot instead
+uses its already hydrated Rust/Cargo homes and authenticated vendor closure.

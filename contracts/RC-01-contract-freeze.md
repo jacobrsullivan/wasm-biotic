@@ -3,10 +3,10 @@
 Status: Proposed  
 Applies to: `RC-01.0` and `RC-01.1`  
 Primary references:
-- [Workstream-A-technical-design.md](../design-and-planning/AI-Agent-Factory/v01/Workstream-A-technical-design.md)
-- [Workstream-B-technical-design.md](../design-and-planning/AI-Agent-Factory/v01/Workstream-B-technical-design.md)
-- [Workstream-C-technical-design.md](../design-and-planning/AI-Agent-Factory/v01/Workstream-C-technical-design.md)
-- [Workstream-E-technical-design.md](../design-and-planning/AI-Agent-Factory/v01/Workstream-E-technical-design.md)
+- `v01/Workstream-A-technical-design.md` (historical RC-01 design lineage)
+- `v01/Workstream-B-technical-design.md` (historical RC-01 design lineage)
+- `v01/Workstream-C-technical-design.md` (historical RC-01 design lineage)
+- `v01/Workstream-E-technical-design.md` (historical RC-01 design lineage)
 
 ## 1. Purpose
 

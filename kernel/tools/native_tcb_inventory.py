@@ -16,8 +16,13 @@ import os
 from pathlib import Path
 import sys
 import tempfile
-import tomllib
 from typing import Any, Iterable
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.9/3.10 verifier fallback.
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "_vendor"))
+    import tomli as tomllib
 
 
 INVENTORY_SCHEMA = "wasm-biotic.native-tcb-inventory.v1"

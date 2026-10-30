@@ -20,8 +20,12 @@ rejection, forged-signature rejection, and that no rejected request reaches a
 service delegate. The host implementations are test fixtures; they do not move
 routing, approval, or service policy back into native code.
 
-From `components/`:
+From the repository root:
 
 ```console
-cargo test --locked --offline -p wasm-biotic-capability-router --test wasm_adapter
+./scripts/verify.sh components
 ```
+
+The top-level scope first builds the ignored `wasm32-wasip2` adapter fixture,
+then runs the host and compiled-component tests. This keeps generated Wasm out
+of Git while making a clean clone self-sufficient.

@@ -1,12 +1,13 @@
 # Wasm-Biotic Roadmap
 
 - **Status authority:** this file
-- **Last reviewed:** 2026-08-03
-- **Current completed phase:** R3 — bounded external transport
-- **Next phase:** R4 — reproducible multi-platform release and key governance
-- **Architecture invariant:** **Satisfied for the exact R3 release**
+- **Last reviewed:** 2026-08-04
+- **Current completed phase:** R4 — reproducible multi-platform release and key governance
+- **Next phase:** R5 — reassess the external operational North Star
+- **Architecture invariant:** **Satisfied for the exact R4 release**
 - **Formal aggregate `component_complete_claim`:** `true` for the exact signed
-  R3 closure; the signed manifest is the identity authority
+  R4 closure; the signed publication and final aggregate are the identity
+  authorities
 - **External operational North Star:** **Not yet**
 - **Production workload model:** WebAssembly Component Model only
 - **Native `aiaf-v1` implementation:** transitional behavioural oracle only
@@ -24,24 +25,26 @@ The project rule is literal:
 > communicate and enforce declared capabilities, but may not implement factory
 > roles, services, workflows or policy.
 
-R3 is the current completed baseline for that rule. Its exact signed release
-contains an incumbent and successor graph. Each graph has 22 admitted Component
-Model nodes, 22 independently derived consumer principals and 34 unique
-content-derived host aliases. One pure principal has no host alias and therefore
-no substrate authority.
+R4 is the current completed release baseline for that rule. It freezes and
+publishes the same bounded incumbent and successor component graphs established
+by R3, now as a reproducible two-platform delivery. Each graph has 22 admitted
+Component Model nodes, 22 independently derived consumer principals and 34
+unique content-derived host aliases. One pure principal has no host alias and
+therefore no substrate authority.
 
 Factory control, supervision, six workers, seven capability-service families,
 exchange, migration, evolution, closure and API meaning execute in components.
 The native kernel supplies eight generic mechanisms. It does not contain a
 reachable native factory role, capability service, workflow or policy fallback.
 
-R3 retains R2's closure of R1's graph-union authority limitation. Host
-authority is selected by the exact per-consumer alias linked before guest
+R4 retains R3's bounded transport and R2's closure of R1's graph-union
+authority limitation. Host authority is selected by the exact per-consumer
+alias linked before guest
 execution. Component payload fields and legacy request metadata cannot choose a
 principal or widen callable authority.
 
-R3 additionally enables one content-derived `http-transport` alias for the
-`exchange-service` component. A separately signed constraint fixes the exact
+The retained R3 profile enables one content-derived `http-transport` alias for
+the `exchange-service` component. A separately signed constraint fixes the exact
 origin, paths, DNS rule, TLS peer, methods, visible headers, byte/time/
 concurrency limits, redirect denial and credential placement. The operator may
 disable or narrow those limits; it cannot widen them. Native code transports
@@ -49,24 +52,87 @@ opaque bytes and preserves a durable single-dispatch fact. Components retain
 provider choice, request construction, response meaning, accounting, retry,
 fallback and workflow policy.
 
+R4 changes how that bounded factory is built, governed, distributed and
+recovered; it does not move factory meaning into native code or add a broader
+workload. The exact source closure and vendor closure produce deterministic
+source and component archives. The components reproduce on separate physical
+Macs. The native substrate is closed for `aarch64-apple-darwin` and
+`x86_64-unknown-linux-gnu`, with the arm64 executable reproduced on separate
+physical Macs. A public install, SBOM, negative controls and public-key-only
+lifecycle cover bootstrap, inactive successor admission, upgrade and rollback.
+
+The governance policy requires 2 of 3 generation-1 signatures and supports a
+separately pinned package-certifier leaf key. That is threshold-signature
+mechanics, not evidence that three different people or organisations held the
+keys. Likewise, the durable copy on Bobs Mini is operator custody, not
+independent external or human custody, and the signed content-addressed
+publication is an operator publication artifact, not a remote registry.
+
 ## 2. Three claims that must stay separate
 
 | Claim | Current answer | Meaning |
 | --- | --- | --- |
 | Does the bounded execution path obey “only run Wasm-Biotic components”? | **Yes** | Factory semantics execute in admitted components; native code provides only the declared generic substrate. |
-| Is the formal aggregate `component_complete_claim` released? | **Yes, for the exact R3 cohort** | The signed release records C0–C7 `pass`, has no blockers and retains its complete content closure. |
-| Is the broader external North Star operationally closed? | **No — Not yet** | Live-provider qualification, external custody, independent review and publication authority remain separate work. |
+| Is the formal aggregate `component_complete_claim` released? | **Yes, for the exact R4 cohort** | The signed publication and post-publication aggregate close R4-C0 through R4-C7 for one exact source, graph, target and evidence cohort. |
+| Is the broader external North Star operationally closed? | **No — Not yet** | A qualified live provider, custody controlled outside the operator, independent human review and genuine external publication authority remain separate work. |
 
 The formal claim attaches only to the exact graphs, WIT package, principal
-inventories, native TCB, substrate profile, target and evidence below. It is not
-a claim about every repository checkout or future profile.
+inventories, native TCB, substrate profile, two closed targets and evidence
+below. It is not a claim about every repository checkout or future profile.
 
 The external North Star is deliberately stricter and broader. Component
 completeness cannot manufacture external facts that have not happened.
 
-## 3. Current R3 release
+## 3. Current R4 release
 
-The exact current package pair is:
+R4 freezes the exact R3 incumbent/successor graph pair and adds a reproducible,
+governed release envelope around it. The signed publication and
+post-publication aggregate identities below are final. The Bobs custody tree
+was moved into its absent digest-named path atomically, without overwriting the
+mutable development worktree, and the complete public verification set passed
+again from that final path.
+
+| Item | Exact identity or result |
+| --- | --- |
+| Signed publication root | `sha256:659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12` |
+| Publication root document / claim | `sha256:659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12` / `sha256:fbe0d53a4ea75aec14961ae730b3e8dc94ebc2e1767f1f16e8d78f2eea8fec98` |
+| Final post-publication aggregate | `sha256:60a8cd54195e479f766c03cf5ecae4418e1f20b7ba895727273e46862fa975ae`; independently verified under Python 3.9 and 3.14; R4-C0 through R4-C7 pass; blockers empty; no private-key dependency |
+| Durable Bobs operator-custody path | `/Users/bob/Developer/wasm-biotic-releases/sha256-659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12` |
+| Source-snapshot manifest | `sha256:db64731d0e461bf3e146e30702c45fff9547f3ba9fb89f73385b8b15471e2716` |
+| Source / vendored dependency closure | `sha256:ac60f6c97fa48db7243cdd96faf18b5c8feec42caf86b8191c408dc609e68833` / `sha256:5d8b016343d75fc42088cca3fa5ac7b26f9ee85b27e049dcaaf72ed3f7789bc9` |
+| Deterministic source archive | `sha256:50b96f7d1c62825d0405c30557a8c813db34b6dac33e0b9c86ba1727278d40c7`; independently emitted by Python 3.9 and 3.14; 29,896 entries |
+| Component release archive / reproduced component set | `sha256:b009fcd4f0fc098dc8cf43c0011f416a08a44ca9446b49831a5b1d85767791f0` / `sha256:deb8f0df03d85f286239d8c01d106b962dd0dd9787e0b518d1c7a52ba74c908d`; exact 22-node pair |
+| Component witness reports | Jacob's MacBook Pro `sha256:051309111901f55fa583cf31574bbe5654215203cb7fe4f7c2a1cf0ffed6df28`; Bobs Mini `sha256:aaed26520c3c777b5f09a16418d82f62f2a92a676c4b0bed2c65d658d7efa333` |
+| Deterministic install archive | `sha256:71dcac03c222bcf07dafc110d0754d41f6b74fe5d6b9fc0be84972faf6c110e7` |
+| SPDX SBOM / exact coverage report | `sha256:9fa6f2f6d7b3f4f7c2ee3a08bdeee2d574ff003c4b4f86f37960ab9261b84ca1` / `sha256:efc4bff0573c5225ec8a96044e926ba3c5b7057c51f9fdd6fac5b67245ba47b4` |
+| Incumbent / successor graph manifest | `sha256:ef9c8aac3b08848d3df56d069df0df405251786e4afb3dd95e1098dd08195eb4` / `sha256:f98f2f8b6be93e3d9342472a54c08ffa7e976d49a796e8f300a116650d6bbebd` |
+| Component-complete contract / native TCB inventory | `sha256:6eff98aedd7d0047d6abe55b9d60d5bbabaa00b733e8df13d3a0fc3de9c96857` / `sha256:3b7cf13a9308e94d4847d3cfceb80e6a4304f00482f4a83507091f4c24fbebf0` |
+| Linux kernel / public lifecycle runner | `sha256:acec1a22242a29cc29f4a1f15cc87075c069141ad556379068297ec9883e3b53` / `sha256:3b5d20e5758beef40e38e19673f23ac4ea5bffc3fcfd2f4a37151cb1c6442f5f`; `x86_64-unknown-linux-gnu` |
+| Arm64 kernel / public lifecycle runner | `sha256:e89b932d8a39d6fceb2b2495e077172e233e8bdaaeeb1f118a47be2608e98ece` / `sha256:3e0cbb54d90b03dc44f93a8f2c87066dfc6e0a2b8323591661a0261ab8440cdd`; `aarch64-apple-darwin` |
+| Native witness reports | Jacob's MacBook Pro `sha256:67c864101b6cde1b82cf8ff53b8bb747011e81bbe02cb23ae34af8b754547464`; Bobs Mini `sha256:4b620fcb56c0762620d87c4a9422b3519f3de9b6dbdf4179dd508a76d1635fd9`; `navillus` Linux `sha256:b0b37e5b964664e9cbf4db96882f8b5cc1b4bdcc68c47749a8d4cb03d631e0f2` |
+| Package-certifier leaf key identity | `sha256:7bbbb6a94cb24edf5ccbaa34129598698deaf3aa5115130abb85602ab68f3014`; raw key `033212831d4f2022bce8bc70e8f4d7d970b41e1d32a35a207dd0d7731db9352a` |
+| Operator-capacity document | `sha256:f6e5ff0abb5e32a4fdc39f63a6c443f0bfe73f63ed2dcf820a5c29fb4b0bf6b8` |
+| Governance policy / ceremony manifest / report | `sha256:f14378e9ec55233a0fe1519e566605f65be586479c97758724460a267680ed3f` / `sha256:578239199e3006f1534811cc1042614532db909b94cf57fb167c4a7fcfb186d1` / `sha256:e19747f3100b9d8c64ddf558b946454af292c34d81d8bf125b7682d0b18cfd25`; generation 1 requires 2 of 3 valid release-domain signatures |
+| Public install lifecycle | `sha256:273ad23971cd12fd9974698dd645eb63ddcfefb71b20149e21cf1c56d8f4cb4d`; bootstrap, inactive successor admission, activation and rollback pass under the exact operator capacity |
+| Pre-publication negative controls | `sha256:b9ac7e3aae6232c535d85c7272252b5ce819ced4a0b5d01521f47852ba071b0b`; `pass`; blockers empty |
+| Pre-publication reproduction matrix | `sha256:bddb4e8520d6d30b3757504337dace9f6cd43304142b1572de205c84f35649e8`; independently reproduced; bounded component-complete claim true; external North Star false |
+| Publication negative controls | `sha256:1ef51f0a9234dcbc533b553c5d802d4d70803e01aa724b5db75ede68044b0a07`; 10/10 mutations rejected; pristine publication verifies before and after |
+| Fresh Bobs post-publication recovery / lifecycle | `sha256:08b7c9957ce51886c793ed623b7312e90834180b3ffeb1fc92fcd5426659aa2e` / `sha256:8b42a8a221e6ffd30bd6c949ae21d343fca9e39b1e757fa4c58b81240904565e`; canonical, public-only and pass |
+| Independent publication audit | Exact 15-role object closure and two distinct, valid, non-revoked signatures satisfy the 2-of-3 policy; no retired root, private-key path or R4 governance secret is present |
+| Signing-material retirement | Temporary R4 governance private keys were destroyed only after final Bobs verification; with them absent, ceremony `sha256:578239199e3006f1534811cc1042614532db909b94cf57fb167c4a7fcfb186d1`, publication, aggregate and byte-identical publication negatives all reverified |
+| Reproduction and recovery hosts | Components: Jacob's MacBook Pro and Bobs Mini; native arm64: both Macs; native Linux: `navillus`; fresh public recovery and durable custody: Bobs Mini |
+| Regression suite | 196/196 under Python 3.9 and 3.14 in the working source and again from a fresh extraction of the deterministic source archive |
+
+The R4 claim is bounded. The multi-host reports prove exact bytes and declared
+targets, not organisational independence. The governance threshold proves
+signature-policy enforcement, not multi-person key custody. Bobs holds a
+durable, verified operator copy, not third-party custody. The publication can
+be copied and verified without private material, but it was not uploaded to or
+resolved from a remote registry. These are R5 facts, not wording upgrades to R4.
+
+### Retained exact R3 release
+
+The exact runtime package pair retained by R4 was first released by R3:
 
 | Item | Exact identity |
 | --- | --- |
@@ -84,8 +150,9 @@ The exact current package pair is:
 | Certifier key identity | `sha256:7bbbb6a94cb24edf5ccbaa34129598698deaf3aa5115130abb85602ab68f3014` |
 | Pinned raw Ed25519 public key | `033212831d4f2022bce8bc70e8f4d7d970b41e1d32a35a207dd0d7731db9352a` |
 
-The signed aggregate manifest is authoritative for the release root, public
-key, complete package/native/source/contract trees and every report digest.
+The retained R3 signed aggregate manifest is authoritative for that historical
+release root, public key, complete package/native/source/contract trees and
+every R3 report digest.
 This roadmap is deliberately outside the signed normative-contract tree, so it
 can mirror the final root without making that identity circular.
 
@@ -245,7 +312,10 @@ observation means and whether rollback should happen.
 
 ## 6. What the factory can actually do today
 
-R3 retains the useful bounded-local capability slice completed in R1/R2. It can:
+R4 retains the useful bounded-local capability slice completed in R1–R3. It
+does not add a new factory role or service; it makes the exact existing factory
+reproducible, installable and recoverable on the two closed native targets. The
+factory itself can:
 
 1. Accept a canonical content-addressed change request.
 2. Open and snapshot an inline workspace.
@@ -274,7 +344,7 @@ R3 retains the useful bounded-local capability slice completed in R1/R2. It can:
 18. Supply a non-exportable credential by opaque handle while keeping its bytes
     outside component memory and durable/logged/returned evidence.
 
-The boundary is equally important. R3 does **not**:
+The boundary is equally important. R4 does **not**:
 
 - read an ambient repository;
 - run Cargo, a native compiler, a shell or another native workload;
@@ -290,15 +360,28 @@ content-addressed documents. Its added HTTP authority is one reviewed,
 content-bound exchange route, not a general provider capability. Those limits
 are signed facts, not hidden native substitutions.
 
+Outside the running factory, the R4 release toolchain can deterministically
+snapshot and archive source, reproduce components and native executables,
+produce an SBOM, verify a threshold-signed publication, safely install it and
+exercise public-key-only recovery. Those host release tools are not admitted
+factory workloads and do not expand what the component graph can do.
+
 ## 7. Execution and release evidence
 
-### 7.1 Current R3 proof closure
+### 7.1 Current R4 proof closure
 
-The R3 aggregate retains one joined proof closure rather than treating isolated
-test passes as a release claim:
+The R4 aggregate joins release engineering and the retained R3 runtime closure
+rather than treating isolated test passes as a release claim:
 
 | Evidence class | What it proves |
 | --- | --- |
+| Frozen source and archives | The exact source snapshot, vendor closure, deterministic source archive, component release archive and install archive agree byte-for-byte with the publication matrix. |
+| Component reproduction | Two physical Mac witnesses independently derive the exact 22-component incumbent/successor set from the frozen source. |
+| Native reproduction | The arm64 kernel reproduces on two physical Macs; the Linux target is built and attested on `navillus`; each report binds toolchain, source, target, binary and runtime dependencies. |
+| Governance | A generation-1 2-of-3 policy, release leaf-key lifecycle and negative controls bind the exact release and fail closed. This proves threshold mechanics, not multi-person custody. |
+| SBOM and publication | The SPDX document and coverage report enumerate the exact source, component release, install and native artifacts plus closed runtime dependencies; the signed content-addressed publication retains the exact objects. |
+| Public install and recovery | Public inputs alone reproduce install, bootstrap, inactive successor admission, activation, rollback and fresh post-publication recovery under an exact operator-capacity document. |
+| Publication negatives | Wrong signatures, object mutations, archive substitutions, role swaps, policy changes and lifecycle mismatches are rejected while pristine verification remains stable. |
 | Signed semantic admission | Both exact packages, pinned certifier trust, profile v3, HTTP constraint and native inventory agree and tampering fails closed. |
 | Behavioural equivalence | Component-owned bounded factory and exchange semantics remain stable across the signed pair. |
 | Adversarial isolation | Undeclared mechanisms, aliases, destinations, TLS peers, headers, sizes, timeouts, redirects, handles and targets fail closed. |
@@ -319,10 +402,12 @@ the credential sentinel. The production and independent case inventories are
 joined only when their graph, principal, constraint and compiled-component
 identities match.
 
-The signed aggregate manifest records every report digest and is the final
-identity authority. Post-signing negative controls copy and mutate the bundle,
-reject each mutation and confirm that pristine public-key verification remains
-unchanged.
+The signed publication records the pre-publication matrix. The final aggregate
+is deliberately external to that signed root: it independently verifies the
+publication, joins the matrix to publication-negative evidence and a fresh
+post-publication lifecycle, and records R4-C0 through R4-C7 `pass` with no
+private-key dependency. This self-reference boundary prevents a publication
+from claiming that its own future recovery has already happened.
 
 ### 7.2 Retained R2 four-phase lifecycle
 
@@ -405,27 +490,27 @@ executed checks whose outputs feed the named reports.
 
 | Gate | Current state | Evidence |
 | --- | --- | --- |
-| C0 — Contract | **Pass** | Exact WIT, descriptor v2, profile v3, principal/alias rules and separate HTTP constraint are digest-bound. |
-| C1 — Sealed graph | **Pass** | Two signed 22-node graphs retain exact lineage, raw/scoped/derived bytes and one matching exchange HTTP binding. |
-| C2 — Native boundary | **Pass** | Eight generic mechanisms, alias-only linkers and forbidden-domain/provider/retry audits pass. |
-| C3 — Behaviour | **Pass for bounded scope** | Six workers, seven service families and exchange policy execute as components; native HTTP returns opaque facts. |
-| C4 — Durability | **Pass for enabled HTTP** | Local fault coverage plus prepared/pending/terminal/indeterminate dispatch and exact restart replay pass. |
-| C5 — Isolation | **Pass** | Production and independent substrates reject principal, destination, TLS, bound, credential and idempotency escapes. |
-| C6 — Lifecycle and reproduction | **Pass** | Incumbent, successor, rollback, restart, shadow, independent execution and the exact signed HTTP gate pass. |
-| C7 — Aggregate and release | **Pass** | The signed manifest retains the exact closure and public-key verification plus post-signing negatives pass. |
+| R4-C0 — Contract and matrix | **Pass** | The frozen component/native boundary contract and canonical pre-publication matrix agree. |
+| R4-C1 — Source and archives | **Pass** | The exact source snapshot and source, component-release and install archives are closed and reproducible. |
+| R4-C2 — Components | **Pass** | The independent physical component witnesses report the same exact 22-node component set. |
+| R4-C3 — Native targets | **Pass** | Arm64 reproduction and Linux target evidence bind exact binaries, build recipes, source closure and runtime dependencies. |
+| R4-C4 — Governance | **Pass** | The threshold policy, public ceremony and pre-publication negative controls agree and fail closed. |
+| R4-C5 — SBOM | **Pass** | SPDX and coverage documents exactly cover the five published artifact roles and closed runtime dependencies. |
+| R4-C6 — Public lifecycle | **Pass** | Pre-publication install plus fresh post-publication recovery prove bootstrap, inactive admission, upgrade and rollback from public inputs. |
+| R4-C7 — Publication and aggregate | **Pass** | The signed publication, publication negatives, recovery and external final aggregate join with no blockers. |
 
 `open_release_blockers` is empty.
 
-The R3 claim is exact. Any new origin, TLS peer, provider, credential placement,
-operator widening, platform, component or policy creates a different closure
-and reopens the applicable transport, crash, credential, isolation and release
-gates.
+The R4 claim is exact. Any new origin, TLS peer, provider, credential placement,
+operator widening, platform, component, source byte, toolchain or policy creates
+a different closure and reopens the applicable transport, crash, credential,
+isolation, reproduction, governance and release gates.
 
 ## 9. Current architectural decisions and limits
 
 ### 9.1 Per-consumer principals are the default
 
-New component-complete releases use the R2/R3 principal/alias model. The R1
+New component-complete releases use the R2–R4 principal/alias model. The R1
 graph-union path remains explicitly versioned only for historical replay. It
 cannot be selected by a v2/v3 descriptor or used as R2/R3 isolation evidence.
 
@@ -451,16 +536,18 @@ canonical component-factory state or substitute for a failed component.
 
 ### 9.5 Trust is independently pinned
 
-The operator persists the raw Ed25519 public key independently from package
-contents. Certificates bind the exact package closure and TCB inventory. The
-private key is never stored in a package, native executable or mechanism state.
+The operator independently pins both the generation-1 governance policy and
+the raw Ed25519 package-certifier public key. Certificates bind the exact
+package closure and TCB inventory. Private keys are never stored in a package,
+native executable, mechanism state or custody release tree.
 
 ### 9.6 Scope expansion always creates a new claim
 
 Changing the graph, WIT, profile, native source, native target, operator bounds
-or enabled mechanisms requires a new signed release and reopened gates. The R3
-root remains evidence for its exact cohort only; the historical R2 root remains
-evidence for its disabled-HTTP cohort only.
+or enabled mechanisms requires a new signed release and reopened gates. The R4
+publication remains evidence for its exact cohort only; the retained R3 root
+remains evidence for its original arm64 cohort, and the historical R2 root
+remains evidence for its disabled-HTTP cohort only.
 
 ## 10. Phase history and forward roadmap
 
@@ -469,9 +556,9 @@ evidence for its disabled-HTTP cohort only.
 | R0 | Historical regression baseline | First bounded component-complete release and fail-closed release verification. |
 | R1 | Historical useful baseline | One real bounded local source-change workflow, still using a static graph-union host principal. |
 | R2 | **Complete — historical baseline** | Per-consumer alias authority, graph-qualified ownership and independently reproduced lifecycle. |
-| R3 | **Complete — current baseline** | Tightly bounded external transport without native provider, retry, workflow or policy semantics. |
-| R4 | **Next** | Reproducible multi-platform releases and key governance. |
-| R5 | Not yet | Reassess the external operational North Star using real external evidence. |
+| R3 | **Complete — retained runtime baseline** | Tightly bounded external transport without native provider, retry, workflow or policy semantics. |
+| R4 | **Complete — current release** | Frozen source, multi-host component/native reproduction, two closed targets, threshold governance, exact SBOM, signed publication, public-only recovery and durable operator custody. |
+| R5 | **Next — Not yet** | Reassess the external operational North Star using genuinely external evidence. |
 
 ### R0 — Establish the component-complete release baseline
 
@@ -564,8 +651,9 @@ Completed R3 evidence:
 All nine conditions are satisfied for the exact R3 closure. The transport gate
 uses one explicitly reviewed loopback TLS peer with exact DNS and SPKI pins, so
 the result proves the confinement mechanism without pretending to be a
-qualified live-provider milestone. C0–C7 pass, the blocker set is empty and R4
-is now next.
+qualified live-provider milestone. C0–C7 pass and the blocker set is empty. R4
+retains this runtime closure unchanged and adds release reproduction,
+governance, publication and recovery evidence around it.
 
 Exact retained R3 reports:
 
@@ -589,31 +677,68 @@ one request, durable state retained one operation and replay emitted no second
 transport request. The release negative matrix preserved a byte-identical
 239-file closure.
 
-The native attestation does not claim byte-for-byte reproducibility across
+The retained R3 native attestation did not claim byte-for-byte reproducibility across
 different Cargo target-directory paths: those paths and the resulting Mach-O
-UUID differed between otherwise equivalent clean builds. R4 owns that explicit
-reproducibility gap.
+UUID differed between otherwise equivalent clean builds. R4 closes that gap
+for its frozen source: independent physical arm64 builds produce the same exact
+kernel bytes.
 
 ### R4 — Reproducible multi-platform release and key governance
 
-**Status:** next
+**Priority:** completed current release
 
-Required work:
+**Status:** **complete for the exact signed R4 cohort**
 
-- publish source, toolchain, target and binary attestations per platform;
-- reproduce component and native artifacts on independent machines;
-- define certifier rotation, revocation and threshold custody;
-- publish a content-addressed archive and SBOM; and
-- verify install, bootstrap, inactive admission, upgrade and rollback from
-  public-key-only inputs.
+R4 closes the reproducibility gap without changing the factory's workload
+model. The completion evidence establishes:
+
+1. A canonical source snapshot with 325 project files and 25,441 vendored
+   files, plus exact source and vendor closure digests.
+2. A deterministic 29,896-entry source archive emitted byte-identically under
+   Python 3.9 and 3.14 and safely reopened in a fresh extraction.
+3. An exact content-addressed component release archive containing the retained
+   R3 incumbent and successor; both physical Mac witnesses independently
+   reproduce the same 22-component set.
+4. Exact native reports for `aarch64-apple-darwin` and
+   `x86_64-unknown-linux-gnu`; the arm64 executable reproduces byte-identically
+   on Jacob's MacBook Pro and Bobs Mini, while `navillus` supplies the closed
+   Linux witness and exact runtime dependency inventory.
+5. A generation-1 governance policy requiring any 2 of 3 authorized release
+   signatures, a separately pinned package-certifier leaf key, public
+   rotation/revocation evidence and negative signature controls.
+6. Deterministic public install and source archives, an exact SPDX SBOM plus
+   coverage report, and a signed content-addressed operator publication.
+7. Public-input-only install, bootstrap, inactive successor admission,
+   activation, rollback and restart under the exact operator-capacity digest.
+8. Pre-publication and post-signing negative campaigns that reject path,
+   archive, role, target, policy, signature, object and lifecycle substitution.
+9. Fresh post-publication recovery on Bobs Mini, followed by a final external
+   aggregate that joins the publication, matrix, negatives and recovery with
+   R4-C0 through R4-C7 `pass` and no private-key dependency.
+10. Durable content-addressed operator custody on Bobs Mini, separate from its
+    preserved mutable development worktree.
+
+Those results close the R4 engineering milestone, but their governance and
+custody scope must be stated literally. The 2-of-3 policy was exercised as
+signature mechanics; it does not establish that separate people or
+organisations controlled the keys. Bobs Mini is a second physical host and a
+durable release location under the same operator, not independent external
+custody. The signed publication is portable and independently verifiable, but
+it is not evidence of a remote registry or outside publication authority.
+
+The exact R4 publication and aggregate identities are listed in section 3 and
+the compact retained release record linked in section 12.
 
 ### R5 — Reassess the external North Star
 
 **Status:** **Not yet**
 
 External closure still requires fresh source precommit, a real qualified
-provider interaction, external custody, independent reviewer signature,
-persisted dossier reopen/evaluation and explicit publication authority.
+provider interaction, custody controlled outside the current operator,
+independent reviewer signature, persisted dossier reopen/evaluation and
+explicit external publication authority. A remote registry, if chosen, must be
+exercised as a real distribution and resolution path rather than inferred from
+a local signed directory.
 
 Only the `closure-evaluator` component may interpret that dossier. The native
 substrate may verify signatures and store bytes but may not decide whether the
@@ -621,9 +746,65 @@ North Star is closed.
 
 ## 11. Canonical verification procedure
 
-Verify the current R3 release by passing its content-addressed directory to
-`tools/component-release-bundle.py verify` with the independently obtained raw
-Ed25519 public key. The signed manifest inside that directory is authoritative:
+For the ordinary networked Git checkout, run the pinned, sharded verification
+driver:
+
+```bash
+./scripts/verify.sh
+```
+
+That verifies the immutable Git import of the signed 325-file project closure,
+the compact R4 record, all release-tool and native-inventory tests, the
+component/kernel/tool/oracle Rust suites, and the component build. See
+[`R4-SOURCE-BASELINE.md`](R4-SOURCE-BASELINE.md) for the deliberate separation
+between normal registry-backed development and the exact vendored offline
+source archive.
+
+Full release verification is a separate custody operation. It requires
+OpenSSL 3 with Ed25519 `pkeyutl -rawin` support; Apple LibreSSL is insufficient.
+The Operations custody runbook pins the exact executable and records the
+successful Bob verification environment.
+
+Verify the R4 publication from independently obtained generation-1 policy and
+raw package-certifier leaf-key bytes. Do not trust policy or key copies merely
+because they are inside the publication:
+
+```bash
+python3 tools/r4-publication.py verify \
+  --publication PATH_TO_SHA256_PUBLICATION_ROOT \
+  --policy PATH_TO_INDEPENDENT_GENESIS_POLICY \
+  --release-public-key PATH_TO_INDEPENDENT_RAW_LEAF_KEY
+```
+
+Then follow [`tools/R4-PUBLIC-RECOVERY.md`](../tools/R4-PUBLIC-RECOVERY.md) from
+an absent install and mechanism-state root. The procedure safely verifies and
+extracts the source, component-release and install archives, selects one of the
+two closed native targets, and performs bootstrap, inactive successor
+admission, upgrade, rollback and restart without private material.
+
+The final aggregate is external to the publication and must reproduce from the
+exact pre-publication matrix, publication-negative report and fresh
+post-publication reports:
+
+```bash
+python3 tools/r4-aggregate.py verify \
+  --matrix PATH_TO_MATRIX \
+  --publication PATH_TO_SHA256_PUBLICATION_ROOT \
+  --policy PATH_TO_INDEPENDENT_GENESIS_POLICY \
+  --release-public-key PATH_TO_INDEPENDENT_RAW_LEAF_KEY \
+  --publication-negatives PATH_TO_PUBLICATION_NEGATIVES \
+  --postpublication-recovery PATH_TO_RECOVERY_REPORT \
+  --postpublication-lifecycle PATH_TO_LIFECYCLE_REPORT \
+  --aggregate PATH_TO_FINAL_AGGREGATE
+```
+
+Every `PATH_TO_*` value must resolve to the exact object named by the final R4
+release record. A placeholder is not evidence. Verification must report the
+same publication root and aggregate digest listed in section 3.
+
+The retained R3 release remains independently verifiable by passing its
+content-addressed directory to `tools/component-release-bundle.py verify` with
+the independently obtained raw Ed25519 key:
 
 ```bash
 python3 tools/component-release-bundle.py verify \
@@ -632,7 +813,7 @@ python3 tools/component-release-bundle.py verify \
   033212831d4f2022bce8bc70e8f4d7d970b41e1d32a35a207dd0d7731db9352a
 ```
 
-The retained R2 release remains independently verifiable as historical
+The retained R2 release likewise remains independently verifiable as historical
 evidence:
 
 ```bash
@@ -689,10 +870,14 @@ Route meaning and response policy remain in `factory-control`.
 
 ## 12. Evidence locations
 
-The current signed R3 aggregate is
+The compact current R4 release record is
+[`sha256:659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12`](../artifacts/component-complete/r4-releases/sha256-659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12/).
+The signed publication and
+external post-publication aggregate remain authoritative; this roadmap mirrors
+their identities and is not part of either closure.
+
+The retained R3 aggregate is
 [`sha256:ed9eedf3633533cb877a0e0636f9b75a1a0050f426af623fc1ab5e934849e8c9`](../artifacts/component-complete/releases/sha256-ed9eedf3633533cb877a0e0636f9b75a1a0050f426af623fc1ab5e934849e8c9/).
-The signed aggregate manifest remains authoritative; this roadmap mirrors that
-published identity and is not part of its normative-contract tree.
 
 Supporting locations:
 
@@ -704,9 +889,11 @@ Supporting locations:
 - build, verification and reproduction tools: `tools/`.
 
 Historical R0, R1 and R2 aggregate roots remain beside R3 under
-`artifacts/component-complete/releases/`. Historical M0–M7 native-oracle records
-remain under `artifacts/baseline/` and historical documentation. They prove only
-their named bytes and scopes.
+`artifacts/component-complete/releases/`. R4 records live separately under
+`artifacts/component-complete/r4-releases/` because the R4 publication and
+external aggregate have a different self-reference boundary. Historical M0–M7
+native-oracle records remain under `artifacts/baseline/` and historical
+documentation. They prove only their named bytes and scopes.
 
 ## 13. Maintaining this roadmap
 

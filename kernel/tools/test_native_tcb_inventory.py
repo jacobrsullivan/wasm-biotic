@@ -29,8 +29,14 @@ class NativeTcbInventoryGeneratorTests(unittest.TestCase):
         self._copy_file(KERNEL_ROOT / "operator-config.http.example.json")
         for path in sorted((KERNEL_ROOT / "src").rglob("*.rs")):
             self._copy_file(path)
-        for path in sorted((KERNEL_ROOT / "fixtures" / "artifacts").glob("*.wasm")):
-            self._copy_file(path)
+        fixture_root = self.repo / "kernel" / "fixtures" / "artifacts"
+        fixture_root.mkdir(parents=True, exist_ok=True)
+        for name in ("adversarial-task.wasm", "mechanism-task.wasm", "root.wasm", "task.wasm"):
+            # Inventory generation hashes opaque fixture bytes; validity is
+            # exercised by the Rust kernel tests. Keeping this unit test
+            # self-contained avoids an undeclared dependency on ignored build
+            # output in the caller's checkout.
+            (fixture_root / name).write_bytes(b"\x00asm\x01\x00\x00\x00")
         for path in sorted((REPO_ROOT / "wit" / "wasm-biotic").glob("*.wit")):
             self._copy_file(path)
 

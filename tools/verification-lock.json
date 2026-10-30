@@ -1,0 +1,38 @@
+{
+  "baseline_commit": "f19bed964e562c8c24d081ab01611b6422477e11",
+  "cargo_commit": "c980f4866141969fab6254a680546a277789d6f0",
+  "cargo_release": "1.97.1",
+  "effective_cargo_manifests": [
+    "Cargo.toml",
+    "components/Cargo.toml",
+    "components/supervisor-reducer/Cargo.toml",
+    "components/workers/Cargo.toml",
+    "kernel/Cargo.toml",
+    "kernel/fixtures/adversarial-task-component/Cargo.toml",
+    "kernel/fixtures/mechanism-task-component/Cargo.toml",
+    "kernel/fixtures/root-component/Cargo.toml",
+    "kernel/fixtures/task-component/Cargo.toml",
+    "tools/component-equivalence/Cargo.toml",
+    "tools/component-graph-package/Cargo.toml",
+    "tools/independent-substrate/Cargo.toml"
+  ],
+  "lockfiles": [
+    "Cargo.lock",
+    "components/Cargo.lock",
+    "components/state-migration/Cargo.lock",
+    "components/supervisor-reducer/Cargo.lock",
+    "components/workers/Cargo.lock",
+    "kernel/Cargo.lock",
+    "kernel/fixtures/adversarial-task-component/Cargo.lock",
+    "kernel/fixtures/mechanism-task-component/Cargo.lock",
+    "kernel/fixtures/root-component/Cargo.lock",
+    "kernel/fixtures/task-component/Cargo.lock",
+    "tools/component-equivalence/Cargo.lock",
+    "tools/component-graph-package/Cargo.lock",
+    "tools/independent-substrate/Cargo.lock"
+  ],
+  "rustc_commit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "rustc_release": "1.97.1",
+  "wasm_target": "wasm32-wasip2",
+  "wasm_tools_release": "1.255.0"
+}

@@ -8,8 +8,6 @@
 //! declarative commands. Effect journalling and execution belong to the
 //! separately composed component driver and generic substrate.
 
-use serde::{Deserialize, Serialize};
-use sha2::{Digest as _, Sha256};
 use alloc::{
     collections::{BTreeMap, BTreeSet},
     format,
@@ -17,6 +15,8 @@ use alloc::{
     vec,
     vec::Vec,
 };
+use serde::{Deserialize, Serialize};
+use sha2::{Digest as _, Sha256};
 
 extern crate alloc;
 
@@ -265,7 +265,11 @@ impl SupervisorStateV1 {
         }
         self.graph_digest.validate("state.graph_digest")?;
 
-        let actual = self.worker_components.keys().cloned().collect::<BTreeSet<_>>();
+        let actual = self
+            .worker_components
+            .keys()
+            .cloned()
+            .collect::<BTreeSet<_>>();
         let expected = Stage::ALL.into_iter().collect::<BTreeSet<_>>();
         if actual != expected {
             return Err(PolicyError::new(
@@ -282,9 +286,7 @@ impl SupervisorStateV1 {
             .keys()
             .copied()
             .collect::<BTreeSet<_>>();
-        let expected = ServiceFamilyValue::ALL
-            .into_iter()
-            .collect::<BTreeSet<_>>();
+        let expected = ServiceFamilyValue::ALL.into_iter().collect::<BTreeSet<_>>();
         if actual != expected {
             return Err(PolicyError::new(
                 "incomplete-service-graph",
@@ -501,9 +503,7 @@ pub fn reduce_policy(
 
     let mut commands = match &event {
         PolicyEvent::JobSubmitted(source) => submit_job(&mut state, source.clone())?,
-        PolicyEvent::WorkerFinished(response) => {
-            finish_worker(&mut state, response.clone())?
-        }
+        PolicyEvent::WorkerFinished(response) => finish_worker(&mut state, response.clone())?,
     };
     state.last_event_sequence = event_sequence;
     state.validate()?;
@@ -644,7 +644,10 @@ fn finish_worker(
             output.validate("worker.output")?;
             if let Some(next_stage) = binding.stage.next() {
                 {
-                    let job = state.jobs.get_mut(&binding.job_id).expect("job was checked");
+                    let job = state
+                        .jobs
+                        .get_mut(&binding.job_id)
+                        .expect("job was checked");
                     job.current_stage = next_stage.clone();
                     job.status = JobStatus::Running;
                     job.active_execution = None;
@@ -662,7 +665,10 @@ fn finish_worker(
                 )?;
                 Ok(vec![PolicyCommand::DispatchWorker(dispatch)])
             } else {
-                let job = state.jobs.get_mut(&binding.job_id).expect("job was checked");
+                let job = state
+                    .jobs
+                    .get_mut(&binding.job_id)
+                    .expect("job was checked");
                 job.status = JobStatus::Completed;
                 job.active_execution = None;
                 job.latest_output = Some(output.clone());
@@ -673,7 +679,10 @@ fn finish_worker(
         }
         PolicyWorkerOutcome::Blocked(request) => {
             request.validate("worker.blocked")?;
-            let job = state.jobs.get_mut(&binding.job_id).expect("job was checked");
+            let job = state
+                .jobs
+                .get_mut(&binding.job_id)
+                .expect("job was checked");
             job.status = JobStatus::Blocked;
             job.active_execution = None;
             job.checkpoint = response.checkpoint;
@@ -689,7 +698,10 @@ fn finish_worker(
             Ok(Vec::new())
         }
         PolicyWorkerOutcome::Cancelled => {
-            let job = state.jobs.get_mut(&binding.job_id).expect("job was checked");
+            let job = state
+                .jobs
+                .get_mut(&binding.job_id)
+                .expect("job was checked");
             job.status = JobStatus::Cancelled;
             job.active_execution = None;
             job.checkpoint = response.checkpoint;
@@ -1073,9 +1085,7 @@ mod component {
             },
             hex: digest.hex,
         };
-        value
-            .validate("component.digest")
-            .map_err(policy_failure)?;
+        value.validate("component.digest").map_err(policy_failure)?;
         Ok(value)
     }
 
@@ -1220,7 +1230,10 @@ mod tests {
         )
         .unwrap();
         assert_eq!(dispatch(&completed.commands[0]).stage, Stage::Builder);
-        assert_eq!(dispatch(&completed.commands[0]).worker_component, digest('2'));
+        assert_eq!(
+            dispatch(&completed.commands[0]).worker_component,
+            digest('2')
+        );
 
         let replay = reduce_policy(
             initial.graph_digest,

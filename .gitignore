@@ -1,6 +1,16 @@
 # Build artifacts
 target/
 *.wasm
+!artifacts/fixtures/component-complete-history/capability-router-component.wasm
+
+# Exact R4 dependency bytes live in content-addressed release custody. A local
+# operator may materialize them here without dirtying the developer checkout.
+vendor/
+/.cargo/config.toml
+
+# Python test/runtime caches
+__pycache__/
+*.py[cod]
 
 # SQLite store (runtime data, not source)
 mvp-01/store/
@@ -19,16 +29,16 @@ mvp-02/benchmark-runs/
 # Local credentials (never commit)
 .env
 
-# Editor
+# Editor and local assistant state
 *.swp
 *.swo
 *~
 .idea/
 .vscode/
+.claude/
 
 # Legacy project archive is held in external NAS custody and is not tracked here
 /project-archive
 
-# Book-narrative binary media (large; backed up to NAS under BackupDesktop/wasm-biotic)
+# Binary media
 *.mp4
-book-narrative/**/*.pdf

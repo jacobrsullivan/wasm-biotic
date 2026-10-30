@@ -10,4 +10,4 @@ Operational constraints:
 - The authoritative output contract remains the existing Wasm-Biotic JSON turn contract. Native provider `tool_calls` are not executed directly in this mode.
 - `response_schema_json` is still rendered into the turn package contract, but v1 does not translate it into provider-native schema enforcement for OpenRouter.
 
-Registration example: [artifacts/openrouter/provider-openrouter-example.json](/Users/jacobsullivan/Desktop/wasm-biotic/artifacts/openrouter/provider-openrouter-example.json:1)
+Registration example: [`artifacts/openrouter/provider-openrouter-example.json`](../artifacts/openrouter/provider-openrouter-example.json)

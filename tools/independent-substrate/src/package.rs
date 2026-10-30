@@ -1741,9 +1741,7 @@ mod tests {
 
     #[test]
     fn retained_r1_profile_and_manifest_remain_closed_canonical_documents() {
-        let package = Path::new(env!("CARGO_MANIFEST_DIR")).join(
-            "../../artifacts/component-complete/r1-packages/sha256-4d4bca5c0fbcb5651bbc326049a08bf495b555392a83093cdf756fd213d0dd09",
-        );
+        let package = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures/r1");
         let profile_bytes = fs::read(package.join("substrate-profile.json")).unwrap();
         let manifest_bytes = fs::read(package.join("manifest.json")).unwrap();
         let profile: Profile = parse_canonical(&profile_bytes, "retained R1 profile").unwrap();

@@ -1,0 +1,277 @@
+{
+  "schema": "wasm-biotic.native-tcb-inventory.v1",
+  "crate": {
+    "name": "wasm-biotic-kernel",
+    "version": "0.1.0",
+    "source_revision": {
+      "status": "content-addressed-source-closure",
+      "value": "sha256:71ea37dd9b0734b852acf8a5322ee19075099dd4a16520723e5103a8f01b3d31"
+    },
+    "native_artifact_sha256": {
+      "status": "release-binding-required",
+      "value": null
+    }
+  },
+  "conformance": {
+    "component_complete_claim": true,
+    "status": "component-complete-bounded-local-release",
+    "reason": "For the exact graph and bounded-local profile named by a conforming release bundle, every factory role, service, workflow and policy executes as a Wasm component. The reachable native kernel is limited to the eight declared generic substrate mechanisms and does not implement factory semantics. Admission requires a canonical Ed25519 certificate over the exact component/package closure and this inventory, verified against an independently persisted operator public key; native code treats semantic reports as opaque, digest-bound evidence. A release claim is valid only when this exact inventory, its signed package cohort, the optimized native artifact and the public-key-verifiable conformance reports are retained together by a content-addressed release manifest. The claim does not enable HTTP and does not assert the broader external North Star.",
+    "enforced_invariants": [
+      "receipt executor identity remains the authoritative raw graph-node digest",
+      "derived executable identity and source provenance are persisted separately",
+      "static composition is one explicit graph-union principal",
+      "dynamic executions are independently grant-gated per run",
+      "local configuration cannot exceed manifest-bound ceilings or namespaces",
+      "every admission must carry a valid canonical certificate binding the exact release closure and this compiled native inventory",
+      "offline semantic validation report bytes are hashed but never interpreted by native code",
+      "first active-root bootstrap and selection require the immutable operator-pinned manifest digest; inactive candidate admission remains possible",
+      "root exports cannot run unless their manifest is the durable active manifest"
+    ]
+  },
+  "engine": {
+    "name": "wasmtime",
+    "version": "43.0.1",
+    "cargo_default_features": false,
+    "cargo_features": [
+      "anyhow",
+      "component-model",
+      "cranelift",
+      "runtime",
+      "std"
+    ],
+    "enabled_features": [
+      "component-model",
+      "epoch-interruption",
+      "fuel-metering",
+      "store-limits"
+    ]
+  },
+  "typed_abis": [
+    "wasm-biotic:factory/factory-root@0.1.0",
+    "wasm-biotic:factory/admitted-task-component@0.1.0",
+    "wasm-biotic:factory/admitted-tool-component@0.1.0",
+    "s32-pair-to-s32@1"
+  ],
+  "compiled_wit_package": {
+    "package": "wasm-biotic:factory@0.1.0",
+    "artifact_schema": "wasm-biotic.wit-package.v1",
+    "sha256": "sha256:b7e64a6a131af7a89ab27a0488b1f020f5e26620a1c10abbaeb06f27d6ed2633"
+  },
+  "native_boundary": {
+    "operator_capacity": {
+      "persistence": "explicit-init-and-immutable",
+      "configuration_schema": "wasm-biotic.operator-mechanism-capacity.v1",
+      "package_selectable": false,
+      "max_component_fuel": 50000000,
+      "max_component_memory_bytes": 67108864,
+      "max_root_instances": 256,
+      "max_root_memories": 128,
+      "max_root_tables": 128,
+      "max_root_table_elements": 1000000,
+      "max_task_instances": 256,
+      "max_task_memories": 128,
+      "max_task_tables": 128,
+      "max_task_table_elements": 1000000,
+      "successor_rule": "graph requirements must fit capacity; effective root fuel and memory are the graph/operator minimum"
+    },
+    "release_certification": {
+      "schema": "wasm-biotic.release-certification.v1",
+      "signature_algorithm": "ed25519",
+      "trust_persistence": "explicit-init-and-immutable-public-key",
+      "package_selectable_trust": false,
+      "private_key_location": "external offline certifier only; never release or mechanism state",
+      "native_report_interpretation": false,
+      "bound_closure": [
+        "graph-manifest",
+        "native-tcb-inventory",
+        "wit-package-and-worlds",
+        "metadata",
+        "raw-components",
+        "derived-executables",
+        "derivation-descriptor",
+        "substrate-profile",
+        "composition-configurations",
+        "constraints",
+        "strict-validation-report"
+      ]
+    },
+    "allowlisted_interfaces": [
+      "activation",
+      "audit-log",
+      "blob-store",
+      "clock",
+      "component-runner",
+      "http-transport",
+      "key-service",
+      "transaction-store"
+    ],
+    "implemented_interfaces": [
+      "activation",
+      "audit-log",
+      "blob-store",
+      "clock",
+      "component-runner",
+      "http-transport",
+      "key-service",
+      "transaction-store"
+    ],
+    "interface_profiles": {
+      "activation": {
+        "mode": "persistent-local",
+        "mechanism": "operator-pinned exact first-manifest trust plus independently pinned release-certifier public key, atomic exact verified-manifest selection, active BlobRef resolution and last-known-good restoration"
+      },
+      "audit-log": {
+        "mode": "persistent-local",
+        "mechanism": "opaque append-only SHA-256 chain"
+      },
+      "blob-store": {
+        "mode": "persistent-local",
+        "mechanism": "quota-bound immutable SHA-256 blobs"
+      },
+      "clock": {
+        "mode": "persistent-local",
+        "mechanism": "wall clock plus explicitly requested durable wakes; past or equal deadlines are immediately due and only future delay is horizon-bounded"
+      },
+      "component-runner": {
+        "mode": "persistent-local",
+        "mechanism": "exact-digest Component Model instantiation with fuel, memory, output and wall-time bounds"
+      },
+      "http-transport": {
+        "mode": "bounded-disabled",
+        "mechanism": "validates generic envelope bounds and fails closed without networking"
+      },
+      "key-service": {
+        "mode": "persistent-local",
+        "mechanism": "non-exported Ed25519 key material plus OS secure entropy"
+      },
+      "transaction-store": {
+        "mode": "persistent-local",
+        "mechanism": "opaque exact-scope key-to-blob CAS transactions"
+      }
+    },
+    "adapters": {
+      "storage": [
+        "configured-root local filesystem",
+        "explicit operator capacity document",
+        "exclusive advisory mechanisms.lock writer fencing",
+        "durable monotonic mechanism-state generation fencing",
+        "temporary-file fsync and atomic rename",
+        "JSON mechanism journal"
+      ],
+      "network": [
+        "none (bounded-disabled local profile)"
+      ],
+      "keys": [
+        "ring 0.17.14 Ed25519 and system secure random"
+      ],
+      "clock": [
+        "Rust standard-library system wall clock",
+        "Wasmtime epoch interruption timer"
+      ]
+    }
+  },
+  "operating_system_dependencies": [
+    "configured-root filesystem persistence and fsync/rename semantics",
+    "operating-system advisory file-lock semantics",
+    "operating-system wall clock",
+    "operating-system secure entropy",
+    "Rust standard-library memory, synchronization and timer threads",
+    "standard input/output for the generic local launcher transport",
+    "Wasmtime platform runtime"
+  ],
+  "dependency_lock": {
+    "path": "Cargo.lock",
+    "sha256": "sha256:7836d53f59a7899f73d309143bce9a61d42a658a13d5cc879b4e19a7c79505f1",
+    "production_tree_binding": "release-evidence-required"
+  },
+  "operator_capacity_example": {
+    "path": "operator-config.example.json",
+    "schema": "wasm-biotic.operator-mechanism-capacity.v1",
+    "sha256": "sha256:447b3cb9d67b853b8ac279c357553d759a419484ebd6b165a06ad5724a2234fe",
+    "authority": "operator-reviewed; never package-selected"
+  },
+  "fixture_artifacts": [
+    {
+      "path": "fixtures/artifacts/root.wasm",
+      "sha256": "sha256:647f56f1af68a9df793460cf6d30f0d032bed610168cfe43a3f1f97e3ee754c6"
+    },
+    {
+      "path": "fixtures/artifacts/task.wasm",
+      "sha256": "sha256:598813124ab2866a07c00e4e2382fe8946db61b705cfe92bd5b6a8ae342ae8db"
+    },
+    {
+      "path": "fixtures/artifacts/mechanism-task.wasm",
+      "sha256": "sha256:c78cd241f4fd641c5651413376584d0c592c96c7213bbf46df7b9805b561e111"
+    },
+    {
+      "path": "fixtures/artifacts/adversarial-task.wasm",
+      "sha256": "sha256:2962c922834f8974eb73600cf1590891866f205e151c809ba2ae5f90df017f46"
+    }
+  ],
+  "reachable_native_modules": [
+    {
+      "path": "src/bindings.rs",
+      "sha256": "sha256:99e8e18f387990d8f745c96c52e66b3a609c74f0f8e8e779ef5db1448b7341e0"
+    },
+    {
+      "path": "src/certification.rs",
+      "sha256": "sha256:316e51042a4958f9b20712d4e78d0d4e52b77e970bdf2ccefc6231d2202aec52"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "sha256:df6f429c86d7637794fe448d9a2165de441b795b0ac3bc2fbc404c10713d2a50"
+    },
+    {
+      "path": "src/digest.rs",
+      "sha256": "sha256:db55251696697d54a2d66c0823143cd79953b03dd031ec8764d5709ddda11493"
+    },
+    {
+      "path": "src/error.rs",
+      "sha256": "sha256:5b3256fd9bba8ebc634efd393901b04ad9db07676cbc123329595f51cf03cf9d"
+    },
+    {
+      "path": "src/host.rs",
+      "sha256": "sha256:57a4c3196c7179970f59b413da1cf5717babdca9ec500a5166a5c01d38d64056"
+    },
+    {
+      "path": "src/local.rs",
+      "sha256": "sha256:39d5c0da18ebe81fdf299f575353f31a1c6a6507dcc1cb414289383b3acd81a8"
+    },
+    {
+      "path": "src/manifest.rs",
+      "sha256": "sha256:5159cedf97c8e3316c0d3676c64b5058d0096b4981f1e35df05e19a0261685db"
+    },
+    {
+      "path": "src/root_runtime.rs",
+      "sha256": "sha256:de83592770c0931feea6761a7d209924b7519771870060a1cf4f0626d3922750"
+    },
+    {
+      "path": "src/runtime.rs",
+      "sha256": "sha256:d664d9c12f0ec1befe13a5833614d3bb139b3270192601244058f49af0998f03"
+    },
+    {
+      "path": "src/bin/wasm-biotic-kernel.rs",
+      "sha256": "sha256:d33b38ba654e05d725c63269ee8cc98c89e4efc0dae7f62b3b94473004c2b379"
+    }
+  ],
+  "negative_attestations": {
+    "native_program_execution_reachable": false,
+    "ambient_file_system_exposed_to_components": false,
+    "ambient_environment_exposed_to_components": false,
+    "ambient_network_exposed_to_components": false,
+    "native_domain_modules_reachable": false
+  },
+  "verification_harness": {
+    "durability_fault_controller": "policy-neutral one-shot controller available only through the explicit conformance constructor; ordinary constructors and the production CLI install a disarmed controller and expose no input that can arm it",
+    "durability_fault_matrix": "covers blob and component content writes, transaction and audit commits, component dispatch/completion/receipt replay, activation commit/rollback/boot recovery with paired opaque graph/state pointers, and stale two-handle writer fencing"
+  },
+  "limitations": [
+    "The accepted executable cache is bound through canonical manifest metadata and a derivation descriptor; independent recomposition is release evidence rather than native policy.",
+    "Semantic role coverage and complete-graph execution are release evidence produced outside the native kernel; the kernel neither interprets nor substitutes for those proofs.",
+    "The signed local profile deliberately disables HTTP. Enabling remote transport creates a different profile, package identity and conformance duty.",
+    "Static composition uses one explicit graph-union principal. Finer per-consumer isolation applies only to dynamic executions in this version.",
+    "The component-owned capability services are bounded deterministic reference services; this release does not claim feature parity with unrestricted compilers, workspaces, providers or deployment systems.",
+    "The v1 certifier public key is immutable after mechanism initialization; explicit operator key rotation and revocation governance remain outside package authority.",
+    "The retained optimized native artifact is exact to its attested host target and toolchain. Another operating system, architecture or toolchain requires a new native attestation and release bundle."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "wasm-biotic.reference-task.v1",
+  "task_id": "m1-reference-transform",
+  "stable_interface_ref": "wit:wasm-biotic:reference-task/reference-task@v1",
+  "wit_world": "reference-task",
+  "mutable_paths": [
+    "component.wat"
+  ],
+  "immutable_paths": [
+    "component.wit"
+  ],
+  "proving_cases": [
+    {
+      "input": -1,
+      "incumbent_output": -1,
+      "challenger_output": 0
+    },
+    {
+      "input": 0,
+      "incumbent_output": 0,
+      "challenger_output": 1
+    },
+    {
+      "input": 41,
+      "incumbent_output": 41,
+      "challenger_output": 42
+    }
+  ],
+  "limits": {
+    "max_files": 2,
+    "max_source_bytes": 65536,
+    "max_component_bytes": 1048576,
+    "fuel": 1000000
+  }
+}

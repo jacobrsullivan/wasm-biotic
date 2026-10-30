@@ -2963,12 +2963,14 @@ fn add_audit_alias(linker: &mut Linker<HostState>, alias: &str) -> Result<()> {
 mod tests {
     use super::*;
     use crate::model::{
-        Binding, BindingProvider, Grant, HostImport, HttpCredentialBinding, HttpDnsConstraint,
-        HttpOriginConstraint, HttpTlsConstraint, HttpTransportBinding, HttpTransportConstraints,
-        HttpTransportProfile, Invocation, Node, Principal, RequestHeaderConstraints,
-        ResponseHeaderConstraints, host_import_alias, principal_seed,
+        Binding, BindingProvider, Certificate, CertificationSignature, CertificationStatement,
+        Constraints, Descriptor, Executable, Grant, HostImport, HttpCredentialBinding,
+        HttpDnsConstraint, HttpOriginConstraint, HttpTlsConstraint, HttpTransportBinding,
+        HttpTransportConstraints, HttpTransportProfile, Invocation, Manifest, Metadata, Node,
+        PackageIndex, Principal, Profile, RequestHeaderConstraints, ResponseHeaderConstraints,
+        host_import_alias, principal_seed,
     };
-    use std::path::Path;
+    use crate::package::ExecutableArtifact;
 
     #[test]
     fn grants_do_not_name_factory_domains() {
@@ -2982,15 +2984,137 @@ mod tests {
         }
     }
 
-    fn retained_release() -> LoadedRelease {
-        let package = Path::new(env!("CARGO_MANIFEST_DIR")).join(
-            "../../artifacts/component-complete/r1-packages/sha256-4d4bca5c0fbcb5651bbc326049a08bf495b555392a83093cdf756fd213d0dd09",
-        );
-        LoadedRelease::load(
-            package,
-            "7b28a8de3427caf35341e72c56d83b1b250e2e0a599c11259becf69148f7eb07",
-        )
-        .unwrap()
+    fn synthetic_release() -> LoadedRelease {
+        let root_authority = Digest::of(b"synthetic-root-authority");
+        let task_authority = Digest::of(b"synthetic-task-authority");
+        let executable_bytes = b"synthetic-component-bytes".to_vec();
+        let executable_digest = Digest::of(&executable_bytes);
+        let metadata_digest = Digest::of(b"synthetic-metadata");
+        let manifest = Manifest {
+            schema: "wasm-biotic.factory-graph.v1".to_string(),
+            wit_package: "wasm-biotic:factory@0.1.0".to_string(),
+            root_node: "synthetic-root".to_string(),
+            previous_graph: None,
+            state_schema: "synthetic".to_string(),
+            nodes: Vec::new(),
+            bindings: Vec::new(),
+            invocations: Vec::new(),
+            metadata: metadata_digest,
+        };
+        let manifest_bytes = canonical_json(&manifest).unwrap();
+        let graph_manifest_digest = Digest::of(&manifest_bytes);
+        let ceilings = Constraints {
+            max_blob_bytes: 1_048_576,
+            max_total_blob_bytes: 8_388_608,
+            max_random_bytes: 1024,
+            max_wake_delay_ms: 60_000,
+            max_http_timeout_ms: 1000,
+            max_component_fuel: 1_000_000,
+            max_component_memory_bytes: 1_048_576,
+            max_component_output_bytes: 1_048_576,
+            max_component_wall_time_ms: 1000,
+            schema: "wasm-biotic.factory-constraints.v1".to_string(),
+            transaction_namespaces: vec!["r2.test".to_string()],
+        };
+        let executable = Executable {
+            authority_node: "synthetic-task".to_string(),
+            authority_digest: task_authority,
+            executable_digest,
+            source_digests: vec![task_authority],
+            scoped_source_digests: Vec::new(),
+            principal_seeds: Vec::new(),
+            world: "wasm-biotic:factory/component-task@0.1.0".to_string(),
+            configuration_digest: Digest::of(b"synthetic-configuration"),
+            grants: Vec::new(),
+        };
+        let descriptor = Descriptor {
+            schema: "wasm-biotic.component-derivation.v1".to_string(),
+            wit_package_digest: Digest::of(b"synthetic-wit"),
+            sources: Vec::new(),
+            executables: vec![executable.clone()],
+            tool: serde_json::json!({"name": "synthetic-test-fixture"}),
+        };
+        let metadata = Metadata {
+            schema: "wasm-biotic.factory-metadata.v1".to_string(),
+            wit_package_digest: descriptor.wit_package_digest,
+            wit_world_digests: BTreeMap::new(),
+            substrate_profile_digest: Digest::of(b"synthetic-profile"),
+            derivation_descriptor_digest: Digest::of(b"synthetic-descriptor"),
+        };
+        let profile = Profile {
+            schema: "wasm-biotic.factory-substrate-profile.v1".to_string(),
+            wit_package: "wasm-biotic:factory@0.1.0".to_string(),
+            primitives: Vec::new(),
+            static_grant_model: "root-static".to_string(),
+            root_node: "synthetic-root".to_string(),
+            root_grants: Vec::new(),
+            import_alias_scheme: None,
+            principal_id_scheme: None,
+            principals: Vec::new(),
+            http_transport: None,
+            ceilings,
+        };
+        let statement = CertificationStatement {
+            schema: "wasm-biotic.release-certification-statement.v1".to_string(),
+            graph_manifest_digest,
+            native_tcb_inventory_digest: Digest::of(b"synthetic-native-tcb"),
+            wit_package_digest: metadata.wit_package_digest,
+            metadata_digest,
+            raw_artifacts: BTreeMap::new(),
+            derived_artifacts: BTreeMap::new(),
+            derivation_descriptor_digest: metadata.derivation_descriptor_digest,
+            substrate_profile_digest: metadata.substrate_profile_digest,
+            wit_world_digests: BTreeMap::new(),
+            composition_configuration_digests: Vec::new(),
+            constraint_digests: Vec::new(),
+            validation_report_digest: Digest::of(b"synthetic-validation"),
+            validator_identity: "synthetic".to_string(),
+            validator_version: "test".to_string(),
+        };
+        let certificate = Certificate {
+            schema: "wasm-biotic.release-certification.v1".to_string(),
+            certifier_key_id: Digest::of(b"synthetic-certifier"),
+            statement,
+            signature: CertificationSignature {
+                algorithm: "ed25519".to_string(),
+                signature_hex: String::new(),
+            },
+        };
+        LoadedRelease {
+            directory: std::path::PathBuf::new(),
+            index: PackageIndex {
+                certification_digest: Digest::of(b"synthetic-certificate"),
+                certified_kernel_tcb_inventory_digest: certificate
+                    .statement
+                    .native_tcb_inventory_digest,
+                package_schema: "wasm-biotic.factory-release-package.v1".to_string(),
+                graph_manifest_digest,
+                root_authority_digest: root_authority,
+                root_executable_digest: executable_digest,
+                validation_report_digest: certificate.statement.validation_report_digest,
+            },
+            manifest,
+            manifest_bytes,
+            metadata,
+            descriptor,
+            profile,
+            certificate,
+            certificate_bytes: Vec::new(),
+            validation_report_bytes: Vec::new(),
+            certified_kernel_tcb_inventory_bytes: Vec::new(),
+            root_bytes: Vec::new(),
+            raw_components: BTreeMap::new(),
+            scoped_components: BTreeMap::new(),
+            executables: BTreeMap::from([(
+                task_authority,
+                ExecutableArtifact {
+                    descriptor: executable,
+                    bytes: executable_bytes,
+                },
+            )]),
+            constraints: BTreeMap::new(),
+            http_transport_constraints: BTreeMap::new(),
+        }
     }
 
     fn r2_state() -> (
@@ -2998,7 +3122,7 @@ mod tests {
         BTreeMap<String, String>,
         BTreeMap<String, Digest>,
     ) {
-        let mut release = retained_release();
+        let mut release = synthetic_release();
         let constraints = Digest::of(b"r2-test-constraints");
         let authorities = BTreeMap::from([
             ("a".to_string(), Digest::of(b"principal-a")),

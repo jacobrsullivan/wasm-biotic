@@ -53,8 +53,10 @@ FROZEN_EMBEDDED_BUILD_INPUTS = (
 )
 FORBIDDEN_SEGMENTS = frozenset(
     {
+        ".DS_Store",
         ".git",
         ".mypy_cache",
+        ".pytest_cache",
         ".ruff_cache",
         "__pycache__",
         "artifacts",

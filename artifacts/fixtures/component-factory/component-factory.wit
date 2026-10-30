@@ -1,0 +1,18 @@
+package wasm-biotic:component-factory@0.1.0;
+
+/// The common, typed stage contract used by this executable vertical slice.
+interface stage {
+    invoke: func(candidate: s32, minimum: s32) -> s32;
+}
+
+/// A leaf service implements the stage contract without another domain import.
+world service-stage {
+    export stage;
+}
+
+/// Supervisors and workers use the same typed downstream port. The host only
+/// connects this port; policy remains in the importing component.
+world forwarding-stage {
+    import downstream: func(candidate: s32, minimum: s32) -> s32;
+    export invoke: func(candidate: s32, minimum: s32) -> s32;
+}

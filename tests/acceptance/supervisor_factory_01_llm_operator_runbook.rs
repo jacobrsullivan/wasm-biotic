@@ -25,8 +25,7 @@ const FACTORY_01_SPEC_ID: &str = "factory-program-spec:factory-01";
 const FACTORY_01_PROFILE_ID: &str = "llm-driver-profile:factory-01-openai";
 const FACTORY_01_PROVIDER_ID: &str = "provider:openai:factory-01";
 const FACTORY_01_GENERATION_POLICY_ID: &str = "generation-policy:factory-01";
-const RUNBOOK_PATH: &str =
-    "design-and-planning/AI-Agent-Factory/Factory_01-LLM-Operator-Runbook.md";
+const RUNBOOK_PATH: &str = "artifacts/factory-01/Factory_01-LLM-Operator-Runbook.md";
 const PROVIDER_FIXTURE_PATH: &str = "artifacts/factory-01/provider-openai-example.json";
 const PROGRAM_FIXTURE_PATH: &str = "artifacts/factory-01/program-create-factory-01.json";
 const DRIVE_FIXTURE_PATH: &str = "artifacts/factory-01/llm-drive-factory-01.json";

@@ -3,9 +3,9 @@
 Status: Active conceptual anchor  
 Applies to: Phase D local-first pre-federation exchange surfaces  
 Primary references:
-- [AIAF Phase D Implementation Roadmap and Guide](../design-and-planning/AI-Agent-Factory/AIAF-phase-d-implementation-roadmap-and-guide.md)
-- [Phase D Workstream A](../design-and-planning/AI-Agent-Factory/phase-d/Workstream-A-technical-design.md)
-- [Phase D Workstream D](../design-and-planning/AI-Agent-Factory/phase-d/Workstream-D-technical-design.md)
+- `AIAF-phase-d-implementation-roadmap-and-guide.md` (historical Phase D design lineage)
+- `phase-d/Workstream-A-technical-design.md` (historical Phase D design lineage)
+- `phase-d/Workstream-D-technical-design.md` (historical Phase D design lineage)
 
 ## 1. Purpose
 

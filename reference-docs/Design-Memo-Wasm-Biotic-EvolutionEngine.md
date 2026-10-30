@@ -703,4 +703,4 @@ But the canonical long-range destination is now clear:
 
 That is a stronger thesis than vague autonomous-software rhetoric because it keeps the hard parts visible: finite snapshots, promotion policy, capability accounting, and replayable adoption.
 
-The next useful step is the dedicated `MVP-4` implementation guide in [EvoEngine-MVP-4-Organic-Capability-Growth-And-Symbiotic-Substrate.md](/Users/jacobsullivan/Desktop/wasm-biotic/design-and-planning/EvoEngine-MVP-4-Organic-Capability-Growth-And-Symbiotic-Substrate.md).
+The next useful step is the dedicated `MVP-4` implementation guide (`EvoEngine-MVP-4-Organic-Capability-Growth-And-Symbiotic-Substrate.md`).

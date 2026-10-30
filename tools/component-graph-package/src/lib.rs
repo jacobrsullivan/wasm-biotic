@@ -33,9 +33,8 @@ use wasm_biotic_factory_control::policy::{
 use wasm_biotic_kernel::bindings::root::exports::wasm_biotic::factory::factory_api::IngressRequest;
 use wasm_biotic_kernel::{
     AuthorityTrace, ExecutionProvenance, LocalConfig, LocalMechanisms, OpaqueRootEngine,
-    OpaqueRootManager,
-    RELEASE_CERTIFICATION_STATEMENT_SCHEMA, ReleaseCertificationStatement, ResourceLimits,
-    RootAdmission, Sha256Digest, SignedReleaseCertification, TrustedCertifier,
+    OpaqueRootManager, RELEASE_CERTIFICATION_STATEMENT_SCHEMA, ReleaseCertificationStatement,
+    ResourceLimits, RootAdmission, Sha256Digest, SignedReleaseCertification, TrustedCertifier,
     canonical_json_bytes,
 };
 use wasm_biotic_service_policy_core::{Operation, operation_policy};
@@ -4072,8 +4071,7 @@ mod tests {
 
     #[test]
     fn retained_r3_pair_loads_without_build_state_or_signer_material() {
-        let packages = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../artifacts/component-complete/r3-packages");
+        let packages = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures/r3");
         let incumbent = load_retained_lifecycle_package(
             &packages
                 .join("sha256-ef9c8aac3b08848d3df56d069df0df405251786e4afb3dd95e1098dd08195eb4"),
@@ -4437,9 +4435,7 @@ mod tests {
 
     #[test]
     fn signed_r2_profile_bytes_remain_an_exact_regression_fixture() {
-        let historical = include_bytes!(
-            "../../../artifacts/component-complete/r2-packages/sha256-0a5698fb0e22cdd9deb2b32e0bf8d3c23ec76cb3b2743c67e9f20a48a7fc943d/substrate-profile.json"
-        );
+        let historical = include_bytes!("../fixtures/r2/substrate-profile.json");
         let parsed: SubstrateProfileV2 =
             serde_json::from_slice(historical).expect("historical R2 profile");
         let dispatched = ReleaseSubstrateProfile::R2(parsed)

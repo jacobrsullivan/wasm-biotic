@@ -1154,7 +1154,7 @@ fn run_native_trace(corpus: &Corpus) -> Result<NativeTrace> {
 
 fn default_adversarial_report_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../artifacts/component-complete/2026-08-02-adversarial-isolation.v1.json")
+        .join("../../artifacts/fixtures/component-complete-history/2026-08-02-adversarial-isolation.v1.json")
 }
 
 fn run_approval_evidence(corpus: &Corpus, report_path: &PathBuf) -> Result<ApprovalEvidence> {
@@ -1170,7 +1170,7 @@ fn run_approval_evidence(corpus: &Corpus, report_path: &PathBuf) -> Result<Appro
         .and_then(Value::as_array)
         .ok_or("approval source report has no cases")?;
     let component_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-        "../../components/capability-router/tests/artifacts/capability-router-component.wasm",
+        "../../artifacts/fixtures/component-complete-history/capability-router-component.wasm",
     );
     let component_bytes = fs::read(&component_path)?;
     let component_digest = format!("sha256:{}", sha256_hex(&component_bytes));

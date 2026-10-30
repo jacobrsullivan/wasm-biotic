@@ -19,10 +19,11 @@ transitional reference implementations, not the final architecture.
 
 ## Current status
 
-R3 is the current bounded release. Its signed claim profile is
-`r3-bounded-external-transport-v1`. It retains R2's per-consumer least-authority
-model: each of the 22 graph nodes has a sealed principal record, and the graph's
-34 residual host imports are rewritten to 34 unique content-derived aliases.
+R4 is the current bounded release. It freezes the exact R3 component graph and
+`r3-bounded-external-transport-v1` profile inside a reproducible two-platform
+publication. It retains R2's per-consumer least-authority model: each of the 22
+graph nodes has a sealed principal record, and the graph's 34 residual host
+imports are rewritten to 34 unique content-derived aliases.
 The kernel resolves each alias to that exact consumer's declared capability,
 scope and constraints. Guest-supplied metadata cannot select or widen the
 principal.
@@ -44,10 +45,18 @@ passed 76/76 tests. A one-shot pinned TLS peer saw exactly one TLS 1.3
 separately implemented substrates agree on the signed transport and principal
 boundaries.
 
-The complete Ed25519-signed R3 byte closure records C0–C7 `pass`, no blockers,
-`component_complete_claim: true` and `external_north_star_claim: false` for the
-exact cohort below. This is a component-complete factory with one qualified,
-bounded transport mechanism. It is not the broader external North Star.
+R4 adds exact source and vendor closure, deterministic archives, independent
+physical component witnesses, closed arm64 and x86_64 native targets,
+threshold-signature governance, an exact SBOM, public installation and fresh
+post-publication recovery. Its final aggregate records R4-C0 through R4-C7
+`pass`, no blockers, `component_complete_claim: true` and
+`external_north_star_claim: false` for one exact cohort.
+
+The 2-of-3 policy proves threshold-signature mechanics, not that separate
+people or organisations held the keys. The durable verified copy on Bobs Mini
+is operator custody, not independent external custody. The signed publication
+is portable operator publication, not a remote registry. The broader external
+North Star therefore remains **Not yet**.
 
 The useful workflow remains deliberately narrow. Its language is
 `wasm-biotic:text-program@1`, its workspace is supplied inline, its ordinary
@@ -64,7 +73,34 @@ and scopes named by their evidence; they do not prove the component graph.
 
 ## Exact production-shaped evidence
 
-The exact signed R3 release completed on 2026-08-03 is:
+The exact signed R4 release completed on 2026-08-04 is summarized below.
+
+| Evidence item | Exact identity or result |
+| --- | --- |
+| Signed publication root | [`sha256:659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12`](artifacts/component-complete/r4-releases/sha256-659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12/) |
+| Publication root document / claim | `sha256:659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12` / `sha256:fbe0d53a4ea75aec14961ae730b3e8dc94ebc2e1767f1f16e8d78f2eea8fec98` |
+| Final post-publication aggregate | `sha256:60a8cd54195e479f766c03cf5ecae4418e1f20b7ba895727273e46862fa975ae`; Python 3.9/3.14 verification pass; R4-C0 through R4-C7 pass; blockers empty; bounded component-complete true; external North Star false |
+| Durable Bobs operator custody | `/Users/bob/Developer/wasm-biotic-releases/sha256-659cdf6b1de2196a7f33fbd3cb55ed4dd7e7a8b514ce6970e1e392e6aabb8b12` |
+| Source snapshot / deterministic source archive | `sha256:db64731d0e461bf3e146e30702c45fff9547f3ba9fb89f73385b8b15471e2716` / `sha256:50b96f7d1c62825d0405c30557a8c813db34b6dac33e0b9c86ba1727278d40c7` |
+| Component release archive / component set | `sha256:b009fcd4f0fc098dc8cf43c0011f416a08a44ca9446b49831a5b1d85767791f0` / `sha256:deb8f0df03d85f286239d8c01d106b962dd0dd9787e0b518d1c7a52ba74c908d` |
+| Component witness reports | Jacob's MacBook Pro `sha256:051309111901f55fa583cf31574bbe5654215203cb7fe4f7c2a1cf0ffed6df28`; Bobs Mini `sha256:aaed26520c3c777b5f09a16418d82f62f2a92a676c4b0bed2c65d658d7efa333` |
+| Install archive / SPDX SBOM / coverage | `sha256:71dcac03c222bcf07dafc110d0754d41f6b74fe5d6b9fc0be84972faf6c110e7` / `sha256:9fa6f2f6d7b3f4f7c2ee3a08bdeee2d574ff003c4b4f86f37960ab9261b84ca1` / `sha256:efc4bff0573c5225ec8a96044e926ba3c5b7057c51f9fdd6fac5b67245ba47b4` |
+| Incumbent / successor graph | `sha256:ef9c8aac3b08848d3df56d069df0df405251786e4afb3dd95e1098dd08195eb4` / `sha256:f98f2f8b6be93e3d9342472a54c08ffa7e976d49a796e8f300a116650d6bbebd` |
+| Closed native targets | `aarch64-apple-darwin` reproduced on Jacob's MacBook Pro and Bobs Mini; `x86_64-unknown-linux-gnu` built and attested on `navillus` |
+| Linux kernel / lifecycle runner | `sha256:acec1a22242a29cc29f4a1f15cc87075c069141ad556379068297ec9883e3b53` / `sha256:3b5d20e5758beef40e38e19673f23ac4ea5bffc3fcfd2f4a37151cb1c6442f5f` |
+| Arm64 kernel / lifecycle runner | `sha256:e89b932d8a39d6fceb2b2495e077172e233e8bdaaeeb1f118a47be2608e98ece` / `sha256:3e0cbb54d90b03dc44f93a8f2c87066dfc6e0a2b8323591661a0261ab8440cdd` |
+| Native witness reports | Jacob's MacBook Pro `sha256:67c864101b6cde1b82cf8ff53b8bb747011e81bbe02cb23ae34af8b754547464`; Bobs Mini `sha256:4b620fcb56c0762620d87c4a9422b3519f3de9b6dbdf4179dd508a76d1635fd9`; `navillus` `sha256:b0b37e5b964664e9cbf4db96882f8b5cc1b4bdcc68c47749a8d4cb03d631e0f2` |
+| Governance / package trust | Policy `sha256:f14378e9ec55233a0fe1519e566605f65be586479c97758724460a267680ed3f`; ceremony report `sha256:e19747f3100b9d8c64ddf558b946454af292c34d81d8bf125b7682d0b18cfd25`; 2-of-3 generation-1 signatures; package leaf-key identity `sha256:7bbbb6a94cb24edf5ccbaa34129598698deaf3aa5115130abb85602ab68f3014` |
+| Public install lifecycle | `sha256:273ad23971cd12fd9974698dd645eb63ddcfefb71b20149e21cf1c56d8f4cb4d`; exact operator capacity `sha256:f6e5ff0abb5e32a4fdc39f63a6c443f0bfe73f63ed2dcf820a5c29fb4b0bf6b8` |
+| Pre-publication negative controls | `sha256:b9ac7e3aae6232c535d85c7272252b5ce819ced4a0b5d01521f47852ba071b0b`; pass; blockers empty |
+| Reproduction matrix / publication negatives | `sha256:bddb4e8520d6d30b3757504337dace9f6cd43304142b1572de205c84f35649e8` / `sha256:1ef51f0a9234dcbc533b553c5d802d4d70803e01aa724b5db75ede68044b0a07`; pass; blockers empty |
+| Fresh Bobs post-publication recovery / lifecycle | `sha256:08b7c9957ce51886c793ed623b7312e90834180b3ffeb1fc92fcd5426659aa2e` / `sha256:8b42a8a221e6ffd30bd6c949ae21d343fca9e39b1e757fa4c58b81240904565e`; canonical, public-only and pass |
+| Signing-material retirement | Temporary R4 governance private keys destroyed after final custody verification; ceremony, publication, aggregate and byte-identical publication negatives reverified with them absent |
+| Test closure | 196/196 under Python 3.9 and 3.14 in the working source and fresh source-archive extraction |
+
+R4 changes release reproducibility, governance and recovery, not the factory's
+bounded service semantics. The retained exact R3 runtime release completed on
+2026-08-03 is:
 
 | Evidence item | Exact identity or result |
 | --- | --- |
@@ -85,10 +121,11 @@ The exact signed R3 release completed on 2026-08-03 is:
 | Post-publication bundle negatives | 17/17 tamper controls rejected; report `sha256:dfac56a36bcfa2c11e068857c5e472230a29bbabd8832b8db248c90848575be3`; pristine 239-file closure unchanged |
 | Retained closure | Both exact package trees, native executable and source, public key, normative contract, signed admission and all mandatory R3 reports under bundle-relative paths |
 
-The R3 root above is the current aggregate authority. R2 remains preserved at
+The R3 root above remains the retained runtime-release authority. The R4 signed
+publication and external post-publication aggregate are current. R2 remains preserved at
 [`sha256:0cb0ba1aad8676e38f535bdf1dfac030e43d2891704a0e629844bdb0a2bd4a52`](artifacts/component-complete/releases/sha256-0cb0ba1aad8676e38f535bdf1dfac030e43d2891704a0e629844bdb0a2bd4a52/)
 as the historical per-consumer bounded-local baseline. R1 and R0 retain their
-earlier scopes; none is the current release identity.
+earlier scopes.
 
 ## What the bounded factory represents
 
@@ -212,6 +249,30 @@ the same seed and exact activation import. Rollback hands it back to the
 last-known-good graph. Both transitions are atomic, stale owners are denied and
 the ownership mapping survives restart.
 
+## Verify a clean developer checkout
+
+The normal Git checkout uses the pinned Rust 1.97.1 toolchain and checked-in
+lockfiles. Its single verification entry point is:
+
+```bash
+./scripts/verify.sh
+```
+
+The default runs the source-import and toolchain preflight, compact R4 record
+verification, Python release-tool tests, component/kernel/tool/oracle Rust
+tests, and the `wasm32-wasip2` component build. The build scope requires the
+exact R4 `wasm-tools 1.255.0` release. Python cryptographic verification
+requires OpenSSL 3; set `WASM_BIOTIC_OPENSSL` to its absolute path when it is
+not the host default. The compact record check itself is hash-only and does not
+require OpenSSL. Individual scopes are documented in
+[`notes/R4-SOURCE-BASELINE.md`](notes/R4-SOURCE-BASELINE.md).
+
+Git contains the exact signed 325-file project closure at commit
+`f19bed964e562c8c24d081ab01611b6422477e11`. The separate 25,441-file Cargo
+vendor closure remains in the content-addressed R4 source archive rather than
+Git. That archive supplies the generated offline Cargo configuration. The
+branch tip is a later development closure and is not itself a signed R4 cohort.
+
 ## Build graph packages
 
 The graph packager builds the 22 raw components, composes the root and dynamic
@@ -235,12 +296,13 @@ WASM_TOOLS=/tmp/wasmbiotic-cargo/bin/wasm-tools \
 
 Do not infer a package directory name in advance: it contains the computed
 manifest digest. Retained historical package trees remain in their immutable
-R0–R2 releases; the R3 package trees and native executable are inside the
-current signed release root linked above. Temporary build output is not release
-authority; a later build is authoritative only after it is assembled, signed
-and verified as a new content-addressed release cohort.
+R0–R3 releases. The current R4 publication binds the frozen R3 package pair,
+both closed native targets, source/install archives and SBOM as one exact
+cohort. Temporary build output is not release authority; a later build is
+authoritative only after it is assembled, signed and verified as a new
+content-addressed publication.
 
-Verify the current R3 closure with only its independently pinned public key:
+Verify the retained R3 closure with only its independently pinned public key:
 
 ```bash
 python3 tools/component-release-bundle.py verify \
@@ -256,19 +318,19 @@ The policy-neutral launcher syntax is:
 ```bash
 # One-time initialization: persist immutable operator capacity and the exact
 # graph digest trusted for first bootstrap.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml \
+cargo run --locked --manifest-path kernel/Cargo.toml \
   --bin wasm-biotic-kernel -- \
   init PATH_TO_MECHANISM_STATE TRUSTED_MANIFEST_SHA256 \
   CERTIFIER_PUBLIC_KEY_HEX kernel/operator-config.example.json
 
 # Verify, store and instantiate an inactive candidate without switching it.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml \
+cargo run --locked --manifest-path kernel/Cargo.toml \
   --bin wasm-biotic-kernel -- \
   admit PATH_TO_GRAPH_PACKAGE PATH_TO_MECHANISM_STATE
 
 # Bootstrap or boot the active graph, then process one typed JSON ingress
 # envelope per stdin line and emit one typed JSON result per stdout line.
-cargo run --locked --offline --manifest-path kernel/Cargo.toml \
+cargo run --locked --manifest-path kernel/Cargo.toml \
   --bin wasm-biotic-kernel -- \
   serve PATH_TO_ACTIVE_GRAPH_PACKAGE PATH_TO_MECHANISM_STATE
 ```
@@ -298,10 +360,8 @@ transport.
 Verify the standalone kernel independently with:
 
 ```bash
-CARGO_HOME=/tmp/wasmbiotic-cargo \
-RUSTUP_HOME=/tmp/wasmbiotic-rustup \
 CARGO_TARGET_DIR=/tmp/wasmbiotic-kernel-target \
-cargo test --locked --offline --manifest-path kernel/Cargo.toml
+./scripts/verify.sh kernel
 ```
 
 ## Transitional native reference oracle
@@ -344,9 +404,9 @@ separate:
 | Have exact incumbent and successor graphs executed successfully? | **Yes.** Incumbent `sha256:ef9c8a...` and successor `sha256:f98f2f...` completed substantive source-change cycles across graph-qualified activation, rollback and restart. |
 | Is authority isolated per component consumer? | **Yes, for this cohort.** Each graph seals 22 principals and 34 content-derived import aliases; production and independent substrates pass the exact 26-case isolation campaign. |
 | Does the exact bounded path satisfy the “only run components” architecture invariant? | **Yes.** Components own roles, services, workflow and policy; native code exposes and enforces only the eight generic WIT mechanisms. |
-| Is the formal aggregate `component_complete_claim` true? | **Yes, for the exact R3 release.** The signed claim records profile `r3-bounded-external-transport-v1`, C0–C7 `pass`, no blockers and the complete bundle-relative byte closure under root `sha256:ed9eed...`. |
+| Is the formal aggregate `component_complete_claim` true? | **Yes, for the exact R4 release.** The final aggregate joins the threshold-signed publication, pre-publication matrix, negatives and fresh recovery with R4-C0 through R4-C7 `pass`; the R3 root remains its retained runtime basis. |
 | Can it build arbitrary Rust/Cargo repositories or use live providers, remote registries or production deployment? | **No.** The useful workflow remains limited to an inline workspace, `wasm-biotic:text-program@1`, `local-fixture` and local content-addressed outputs. R3 adds only one signed, pinned transport grant qualified against a reviewed loopback TLS peer. |
-| Is the broader North Star closed? | **No.** The active operational decision is **Not yet**; external provider, custody, review and publication requirements remain separate. |
+| Is the broader North Star closed? | **No.** The active operational decision is **Not yet**; a qualified live provider, independent external custody and review, and genuine external publication authority remain separate. R4's 2-of-3 mechanics, Bobs operator custody and signed local publication do not satisfy those facts. |
 
 ## Transitional-oracle validation lineage (retained)
 
@@ -406,14 +466,15 @@ wasm-biotic/
   tools/component-graph-package/# deterministic release builder and probe
   notes/ROADMAP.md             # current implementation order and status authority
   Cargo.toml, src/, tests/     # transitional native reference oracle and fixtures
-  design-and-planning/         # historical AIAF/NorthStar design lineage
   reference-docs/              # broader reference material
 ```
 
 ## Key documents
 
-- [`notes/ROADMAP.md`](notes/ROADMAP.md) — completed component-complete R3 claim,
-  current priorities, remaining external scope and retained R0–R2 lineage
+- [`notes/ROADMAP.md`](notes/ROADMAP.md) — completed bounded R4 claim, current
+  R5 external scope and retained R0–R3 lineage
+- [`notes/R4-SOURCE-BASELINE.md`](notes/R4-SOURCE-BASELINE.md) — exact signed
+  source import, external vendor closure and clean-checkout verification model
 - [`contracts/component-complete/README.md`](contracts/component-complete/README.md)
   — normative component ownership and capability inventory
 - [`contracts/component-complete/NATIVE_TCB.md`](contracts/component-complete/NATIVE_TCB.md)
@@ -424,7 +485,17 @@ wasm-biotic/
 - [`kernel/README.md`](kernel/README.md) — standalone kernel operation
 - [`tools/component-graph-package/README.md`](tools/component-graph-package/README.md)
   — release packaging workflow
+- [`artifacts/component-complete/r4-releases/`](artifacts/component-complete/r4-releases/)
+  — compact Git-resident index for the current signed R4 publication
 
-Historical material under `design-and-planning/` and `reference-docs/` remains
-design lineage, not current production authority. All repositories for this
-project must remain private.
+Historical material under `reference-docs/` remains design lineage, not current
+production authority.
+
+## License
+
+Licensed under either of
+
+- Apache License, Version 2.0 ([`LICENSE-APACHE`](LICENSE-APACHE))
+- MIT license ([`LICENSE-MIT`](LICENSE-MIT))
+
+at your option.
