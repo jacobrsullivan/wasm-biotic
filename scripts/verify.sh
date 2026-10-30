@@ -105,10 +105,13 @@ run_kernel() {
 run_rust_tools() {
   CARGO_TARGET_DIR="$target_root/component-equivalence" cargo test --locked \
     --manifest-path "$repository/tools/component-equivalence/Cargo.toml" --all-targets
+  rm -rf "$target_root/component-equivalence"
   CARGO_TARGET_DIR="$target_root/component-graph-package" cargo test --locked \
     --manifest-path "$repository/tools/component-graph-package/Cargo.toml" --all-targets
+  rm -rf "$target_root/component-graph-package"
   CARGO_TARGET_DIR="$target_root/independent-substrate" cargo test --locked \
     --manifest-path "$repository/tools/independent-substrate/Cargo.toml" --all-targets
+  rm -rf "$target_root/independent-substrate"
 }
 
 run_oracle() {

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -264,6 +265,14 @@ class ComponentReproductionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             profile = repro.sandbox_profile(root / "authenticated-source")
+            if shutil.which("xcrun") is None:
+                with self.assertRaisesRegex(repro.ReproductionError, "xcrun is required"):
+                    repro.compile_operator_alias(
+                        root / "operator",
+                        root / "authenticated-source",
+                        profile,
+                    )
+                return
             dylib, launcher, information = repro.compile_operator_alias(
                 root / "operator",
                 root / "authenticated-source",

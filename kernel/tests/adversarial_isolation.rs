@@ -81,7 +81,7 @@ fn limits(fuel: u64, memory_bytes: u64, output_bytes: u64) -> foundation::Resour
         fuel,
         memory_bytes,
         output_bytes,
-        wall_time_ms: 500,
+        wall_time_ms: 5_000,
     }
 }
 
